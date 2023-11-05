@@ -43,7 +43,7 @@
 
             this.max_rotation_speed = 4.0;
 
-            if (teamNumber > 0) {
+            if (teamNumber >= 0) {
                 const sensor = this.scene.matter.bodies.circle(0, 0, 32, {isSensor: true, label: 'nearby'});
                 sensor.label = "playerSensor";
                 const player_size = 3 + (24 * ((1.0 - this.personality.areodynamics) * this.personality.grit));
@@ -65,13 +65,14 @@
                     this.body.label = "player";
                     this.label = "player";
                     this.pBody.playerID = this.playerID;
-
+                    this.teamNum = teamNumber % 2;
                 } else {
                     this.setTexture('star');
                     this.pBody.setCollidesWith(collision_mask_puck | collision_mask_team1 | collision_mask_team2 | collision_mask_arena).setCollisionCategory(collision_mask_team1);
                     this.body.label = "player";
                     this.label = "player";
                     this.pBody.playerID = this.playerID;
+                    this.teamNum = teamNumber % 2;
                 }
                 this.pBody.setVelocity(Phaser.Math.Between(-0.010, 0.010), Phaser.Math.Between(-0.010, 0.010));
                 this.pBody.setFrictionAir(0.41101 * (1.0 - this.personality.areodynamics));
@@ -98,7 +99,7 @@
 
                 this.isPuck = true;
                 this.body.label = "puck";
-                this.pBody.playerID = "puck";
+                this.pBody.playerID = this.playerID;
 
                 this.pBody.setVelocity(Phaser.Math.Between(-0.010, 0.010), Phaser.Math.Between(-0.010, 0.010));
                 this.pBody.setFrictionAir(0.01);
@@ -222,6 +223,16 @@
             // debugging viz
             //this.viz_graphic = this.add.graphics({ lineStyle: { color: 0x00ffff } });
 
+            this.periodLength = 100;
+            this.periodCount = 3;
+            this.currentPeriod = 0;
+            this.currentPeriodStart = 0;
+            this.penaltyTime = 0;
+            this.bonusTime = 0;
+
+            this.inPlayPuckCount = 0;
+
+
             this.GoalBackWidth = 125;
             this.add.image(400, 300, 'sky');
 
@@ -306,12 +317,14 @@
             //     'key': 'players'
             // });
 
+            
+
             this.players = [];
-            const numPlayers = 11;
+            const numPlayers = 21;
             for(let i = 0; i < numPlayers; i++) {
-                const pX = Phaser.Math.FloatBetween(0, 800);
-                const pY = Phaser.Math.FloatBetween(0, 600);
-                let sportTeam = 0;
+                const pX = Phaser.Math.FloatBetween(0, fieldWidth);
+                const pY = Phaser.Math.FloatBetween(0, fieldHeight);
+                let sportTeam = -1;
                 let playerID = "UnnamedPlayer";
                 let teamID = null;
                 if (0 != i) {
@@ -484,7 +497,43 @@
 
             this.matter.world.debugConfig.showVelocity = true;
             //this.matter.world.debugConfig.showCollisions = true;
+
+            const TeamOne = this.sportsGame.teams[0].name;
+            const TeamTwo = this.sportsGame.teams[1].name;
+            historyRecorder.recordHistory({
+                event: "sportsGameStart",
+                subjectID: TeamOne,
+                objectID: TeamTwo,
+                message: `The game between ${TeamOne} and ${TeamTwo} begins.`,
+                proximateCause: "the Director"
+            });
+            this.resetFaceoff();
         }
+
+        addPuck() {
+            this.inPlayPuckCount += 1;
+                const pX = Phaser.Math.FloatBetween((fieldWidth / 2) - 50, 50 + (fieldWidth / 2));
+                const pY = Phaser.Math.FloatBetween(0, fieldHeight);
+                let playerID = `puck_${this.inPlayPuckCount}`;
+                let sportTeam = -1;
+
+                const personality = {
+                    diligence: Phaser.Math.FloatBetween(0.0, 1.0),
+                    fear: Phaser.Math.FloatBetween(0.0, 0.4),
+                    distractibility: Phaser.Math.FloatBetween(0.0, 1.0),
+                    teeth: 32,
+                    twitchiness: Phaser.Math.FloatBetween(0.0, 1.0),
+                    edge: Phaser.Math.FloatBetween(0.0, 1.0),
+                    areodynamics: Phaser.Math.FloatBetween(0.0, 1.0),
+                    gumption: Phaser.Math.FloatBetween(0.0, 1.0),
+                    grit: Phaser.Math.FloatBetween(0.0, 1.0),
+                    fuse: Phaser.Math.FloatBetween(0.0, 1.0)
+                };
+
+                const sportPlayer = this.add.existing(new SportPlayer(this, pX, pY, sportTeam, personality, historyRecorder, playerID));
+
+                this.players.push(sportPlayer);
+            }
 
         angleToPuck(sportPlayer) {
             return Phaser.Math.Angle.Between(sportPlayer.x, sportPlayer.y, this.puck.x, this.puck.y);
@@ -531,6 +580,38 @@
             return Phaser.Math.Angle.Between(sportPlayer.x, sportPlayer.y, target_point_x, target_point_y);
         }
 
+        resetFaceoff() {
+            this.scene.pause();
+
+            let puckCount = 0;
+            this.players.forEach((p) => {
+                if(p.isPuck) {
+                    p.x = fieldWidth / 2;
+                    p.y = fieldHeight / 2;
+                    p.pBody.setVelocity(0, 0);
+                    if (puckCount > 0) {
+                        p.x += Phaser.Math.FloatBetween(-50.0, 50.0);
+                        p.y += Phaser.Math.FloatBetween(-50.0, 50.0);
+                        p.pBody.setVelocity(Phaser.Math.Between(-0.00, 0.00), Phaser.Math.Between(-9.90, 9.90));
+                    }
+                    puckCount++;
+                } else {
+                    if(p.label == "player") {
+                        //console.log(p)
+                        p.x = Phaser.Math.FloatBetween(this.GoalBackWidth + 32, (fieldWidth / 2) - 20);
+                        p.y = Phaser.Math.FloatBetween(0, fieldHeight);
+                        if(p.teamNum == 0) {
+
+                        }
+                        if(p.teamNum == 1) {
+                            p.x = fieldWidth - p.x;
+                        }
+                    }
+                }
+            });
+            this.scene.resume();
+        }
+
         distanceToPuck(sportPlayer) {
             const dist = Phaser.Math.Distance.Between(this.puck.x, this.puck.y, sportPlayer.x, sportPlayer.y);
             return dist;
@@ -553,6 +634,60 @@
                 //console.log(p)
                 p.update(time, delta);
             });
+
+
+            const currentTime = this.game.getFrame();
+
+            const TeamOne = this.sportsGame.teams[0].name;
+            const TeamTwo = this.sportsGame.teams[1].name;
+            const ScoreOne = this.sportsGame.score[TeamOne];
+            const ScoreTwo = this.sportsGame.score[TeamTwo];
+            
+            if (this.currentPeriodStart + this.periodLength + this.penaltyTime + this.bonusTime < currentTime) {
+                // period ends
+
+                this.currentPeriod++;
+
+                historyRecorder.recordHistory({
+                event: "sportsGamePeriodEnd",
+                subjectID: "game_" + TeamOne + "_" + TeamTwo,
+                message: `End of period ${this.currentPeriod}, score is ${TeamOne} ${ScoreOne}, ${TeamTwo} ${ScoreTwo}`,
+                proximateCause: "the Director"
+                });
+
+                this.currentPeriodStart = currentTime;
+                this.penaltyTime = 0;
+                this.bonusTime = 0;
+                this.resetFaceoff();
+            }
+
+            if(this.currentPeriod == this.periodCount) {
+                // End of game, unless we're tied...
+                if(ScoreOne == ScoreTwo) {
+                    this.periodCount++;
+                    historyRecorder.recordHistory({
+                    event: "sportsGamePeriodOvertime",
+                    subjectID: "game_" + TeamOne + "_" + TeamTwo,
+                    message: `The score is tied, ${TeamOne} ${ScoreOne}, ${TeamTwo} ${ScoreTwo}, going to overtime.`,
+                    proximateCause: "the Director"
+                    });
+                    this.addPuck();
+                    this.resetFaceoff();
+                } else {
+                    // end of game
+                    historyRecorder.recordHistory({
+                    event: "sportsGameEnd",
+                    subjectID: "game_" + TeamOne + "_" + TeamTwo,
+                    message: `Game over. Final score, ${TeamOne} ${ScoreOne}, ${TeamTwo} ${ScoreTwo}.`,
+                    proximateCause: "the Director",
+                    data: {TeamOne: ScoreOne, TeamTwo: ScoreTwo}
+                    });
+                    this.scene.stop();
+
+                }
+            }
+            
+
         }
     }
 
