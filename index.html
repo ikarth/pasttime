@@ -41,10 +41,14 @@
             this.personality = personality;
             this.history_recorder = history_recorder;
 
+            this.max_rotation_speed = 4.0;
+
             if (teamNumber > 0) {
                 const sensor = this.scene.matter.bodies.circle(0, 0, 32, {isSensor: true, label: 'nearby'});
                 sensor.label = "playerSensor";
-                const core = this.scene.matter.bodies.circle(0, 0, 16);
+                const player_size = 3 + (24 * ((1.0 - this.personality.areodynamics) * this.personality.grit));
+                const player_reach = Math.max(player_size + 6, 38 * this.personality.edge);
+                const core = this.scene.matter.bodies.circle(0, 0, player_size);
                 core.label = "player";
                 const compoundBody = this.scene.matter.body.create({
                     parts: [sensor, core],
@@ -69,6 +73,11 @@
                     this.label = "player";
                     this.pBody.playerID = this.playerID;
                 }
+                this.pBody.setVelocity(Phaser.Math.Between(-0.010, 0.010), Phaser.Math.Between(-0.010, 0.010));
+                this.pBody.setFrictionAir(0.41101 * (1.0 - this.personality.areodynamics));
+                this.pBody.setFriction(0.001);
+                this.pBody.setBounce(0.89999999);
+                //this.pBody.setMass(2.001);
                 
             } else {
                 this.setTexture('puck');
@@ -91,18 +100,19 @@
                 this.body.label = "puck";
                 this.pBody.playerID = "puck";
 
-                
+                this.pBody.setVelocity(Phaser.Math.Between(-0.010, 0.010), Phaser.Math.Between(-0.010, 0.010));
+                this.pBody.setFrictionAir(0.01);
+                this.pBody.setFriction(0.2);
+                this.pBody.setMass(0.2);
+
+                this.pBody.setBounce(0.99999999);
             }
             
             this.setPosition(x, y);
             this.team = teamNumber;
-            this.pBody.setVelocity(Phaser.Math.Between(-0.010, 0.010), Phaser.Math.Between(-0.010, 0.010));
-            this.pBody.setFrictionAir(0.51101 * (1.0 - this.personality.areodynamics));
-            this.pBody.setBounce(0.99999999);
+            
             //this.pBody.setFriction(0);
             //this.pBody.body.inertia = Infinity;
-
-            console.log(this);
         }
 
         setTeam(teamNumber) {
@@ -124,24 +134,25 @@
         update(time, delta)
         {
             
-            //console.log(this.scene.puck);
             if (this.isPuck) {
                 //console.log(this);
             } else {
-                if (this.personality.diligence > Phaser.Math.FloatBetween(0.0, 1.0)) {
-                    const angle = this.scene.angleToPuck(this);
-                    const thrust = 0.01 * this.personality.gumption * (2 * (0.5 - this.personality.fear));
+                const angle = this.scene.angleToPuck(this);
+                //const angleDelta = Phaser.Math.Angle.Wrap(angle);
+                //this.setAngularVelocity(angleDelta * 0.01);
+                //this.thrust(0.1);
+                if ((this.personality.diligence) > Phaser.Math.FloatBetween(0.0, 1.0)) {
+                    
+                    const thrust = 0.1 * this.personality.gumption * (2 * (0.5 - this.personality.fear));
                     this.scene.matter.applyForceFromAngle(this.pBody, thrust, angle);
                     this.lastMoveCause = this.playerID;
-                    //console.log(angle);
                 }
 
-                if (this.personality.distractibility > Phaser.Math.FloatBetween(0.0, 1.0)) {
+                if ((this.personality.distractibility) > Phaser.Math.FloatBetween(0.0, 1.0)) {
                     const angle = Phaser.Math.FloatBetween(0, 2 * Phaser.Math.PI2);
-                    const thrust = 0.01;
+                    const thrust = 0.1;
                     this.scene.matter.applyForceFromAngle(this.pBody, thrust, angle);
                     this.lastMoveCause = this.playerID;
-                    //console.log(angle);
                 }
             }
 
@@ -173,8 +184,6 @@
             }
 
             if(this.forceToApply) {
-                console.log("apply");
-                console.log(this.forceToApply);
                 if(this.forceToApply.length >= 2) {
                     const forceMag = this.forceToApply[0];
                     const forceAngle = this.forceToApply[1];
@@ -211,7 +220,7 @@
         {
             
             // debugging viz
-            this.viz_graphic = this.add.graphics({ lineStyle: { color: 0x00ffff } });
+            //this.viz_graphic = this.add.graphics({ lineStyle: { color: 0x00ffff } });
 
             this.GoalBackWidth = 125;
             this.add.image(400, 300, 'sky');
@@ -298,7 +307,7 @@
             // });
 
             this.players = [];
-            const numPlayers = 2;
+            const numPlayers = 11;
             for(let i = 0; i < numPlayers; i++) {
                 const pX = Phaser.Math.FloatBetween(0, 800);
                 const pY = Phaser.Math.FloatBetween(0, 600);
@@ -316,26 +325,33 @@
                 else {
                     playerID = "puck_0"
                 }
+                // const personality = {
+                //     diligence: 0.019,
+                //     fear: 0.0,
+                //     distractibility: 0.05,
+                //     teeth: 32,
+                //     twitchiness: 0.41,
+                //     edge: 0.9,
+                //     areodynamics: 0.51,
+                //     gumption: 0.5,
+                //     grit: 0.5
+                // };
+
                 const personality = {
-                    diligence: 0.99,
-                    fear: 0.0,
-                    distractibility: 0.0,
+                    diligence: Phaser.Math.FloatBetween(0.0, 1.0),
+                    fear: Phaser.Math.FloatBetween(0.0, 0.4),
+                    distractibility: Phaser.Math.FloatBetween(0.0, 1.0),
                     teeth: 32,
-                    twitchiness: 0.41,
-                    edge: 0.9,
-                    areodynamics: 0.9,
-                    gumption: 0.9
+                    twitchiness: Phaser.Math.FloatBetween(0.0, 1.0),
+                    edge: Phaser.Math.FloatBetween(0.0, 1.0),
+                    areodynamics: Phaser.Math.FloatBetween(0.0, 1.0),
+                    gumption: Phaser.Math.FloatBetween(0.0, 1.0),
+                    grit: Phaser.Math.FloatBetween(0.0, 1.0),
+                    fuse: Phaser.Math.FloatBetween(0.0, 1.0)
                 };
 
                 const sportPlayer = this.add.existing(new SportPlayer(this, pX, pY, sportTeam, personality, historyRecorder, playerID));
-                // if (0 != i) {
-                //     //this.matter.add.gameObject(sportPlayer)
-                // } else {
-                //     this.matter.add.gameObject(sportPlayer).setCollidesWith(collision_mask_puck | collision_mask_score | collision_mask_arena).setCollisionCategory(collision_mask_puck);
-                // }
-                
-                //sportPlayer.setStatic(true).SetCollisionGroup(this.group_players);
-                //console.log(sportPlayer);
+
                 this.players.push(sportPlayer);
             }
             this.puck = this.players[0];
@@ -345,9 +361,7 @@
 
 
             this.matter.world.on("collisionstart", (event, bodyA, bodyB) => {
-                //console.log(`collision ${bodyA} and ${bodyB}`);
-                //console.log(bodyA);
-                //console.log(bodyB);
+
                 if((bodyA.label == "playerSensor") && (bodyB.label == "puck")) {
                     // TODO
                 }
@@ -369,20 +383,6 @@
                     const PlayerA_ID = the_player.gameObject.playerID;
                     const PlayerB_ID = the_puck.gameObject.playerID;
 
-                    const invulnearbilityFrames = 1000;
-                    //console.log(the_puck.gameObject.lastMoveTime);
-                    //console.log(the_puck.gameObject.lastMoveCause == PlayerA_ID);
-                    //console.log((the_puck.gameObject.lastMoveTime + invulnearbilityFrames) - this.game.getFrame());
-                    
-                    // if(the_puck.gameObject.lastMoveCause == PlayerA_ID) {
-                    //     console.log("X")
-                    //     if((the_puck.gameObject.lastMoveTime + invulnearbilityFrames) > this.game.getFrame()) {
-                    //         console.log(the_puck);
-                    //         return false;
-                    //     }
-                    // }
-
-
                     const angle_to_goal = this.angleToGoal(the_player.gameObject);
                     const thrust = 0.01;
 
@@ -390,12 +390,8 @@
                         //thrust = 1.0 * the_player.gameObject.personality.twitchiness * the_player.gameObject.personality.twitchiness;
                     }
 
-                    console.log(the_puck);
+                    //console.log(the_puck);
 
-                    //the_puck.gameObject.applyForce(0.1);
-
-                    //the_puck.matter.applyForce
-                    //this.matter.applyForce(the_puck.gameObject, thrust);
                     the_puck.gameObject.lastMoveCause = PlayerA_ID;
                     the_puck.gameObject.lastMoveTime = this.game.getFrame();
                     the_puck.gameObject.forceToApply = [thrust, angle_to_goal];
@@ -408,26 +404,7 @@
                         proximateCause: PlayerA_ID
                     });
                 }
-                // if((bodyB.label == "player") && (bodyA.label == "puck")) {
-                //     // TODO
-                //     const PlayerA_ID = bodyA.gameObject.playerID;
-                //     const PlayerB_ID = bodyB.gameObject.playerID;
-                //     const angle_to_goal = this.angleToGoal(bodyB.gameObject);
-                //     const thrust = 1000.2;
-                    
-                //     this.matter.applyForceFromAngle(bodyA, thrust, angle_to_goal);
-                //     bodyA.gameObject.lastMoveCause = PlayerB_ID;
 
-
-
-                //     historyRecorder.recordHistory({
-                //         event: "sportsPlayerHitsPuck",
-                //         subjectID: PlayerB_ID,
-                //         objectID: PlayerA_ID,
-                //         message: `${PlayerB_ID} hits the ${PlayerA_ID}!`,
-                //         proximateCause: PlayerB_ID
-                //     });
-                // }
                 if((bodyA.label == "player") && (bodyB.label == "player")) {
                     // TODO
                     const PlayerA_ID = bodyA.gameObject.playerID;
@@ -459,20 +436,35 @@
                         the_puck = bodyB;
                         the_goal = bodyA;
                     }
-                    console.log(bodyA);
-                    console.log(bodyB);
+                    //console.log(bodyA);
+                    //console.log(bodyB);
                     const teamThatScored = the_goal.gameObject.teamGoal;
                     const lastHit = the_puck.gameObject.lastMoveCause;
+
+                    const TeamOne = this.sportsGame.teams[0].name;
+                    const TeamTwo = this.sportsGame.teams[1].name;
+                    const teamThatScoredName = this.sportsGame.teams[teamThatScored].name;
+
                     // log event
                     historyRecorder.recordHistory({
                         event: "sportsGoalScored",
                         subjectID: "puck",
-                        message: `Goal scored in ${teamThatScored}'s goal by ${lastHit} !`,
+                        message: `Goal scored in ${teamThatScoredName}'s goal by ${lastHit} !`,
                         proximateCause: lastHit
                     });
 
                     // increase score
-                    this.sportsGame.score[teamThatScored] += 1;
+                    this.sportsGame.score[teamThatScoredName] += 1;
+
+                    const ScoreOne = this.sportsGame.score[TeamOne];
+                    const ScoreTwo = this.sportsGame.score[TeamTwo];
+
+                    historyRecorder.recordHistory({
+                        event: "sportsScoreReport",
+                        subjectID: "puck",
+                        message: `The score is now ${TeamOne} ${ScoreOne} to ${TeamTwo} ${ScoreTwo}`,
+                        proximateCause: lastHit
+                    });
 
                     //reset puck
                     the_puck.gameObject.pBody.setVelocity(0,0);
@@ -491,7 +483,7 @@
             });
 
             this.matter.world.debugConfig.showVelocity = true;
-            this.matter.world.debugConfig.showCollisions = true;
+            //this.matter.world.debugConfig.showCollisions = true;
         }
 
         angleToPuck(sportPlayer) {
