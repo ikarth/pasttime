@@ -79,6 +79,7 @@
                 this.pBody.setFriction(0.001);
                 this.pBody.setBounce(0.89999999);
                 //this.pBody.setMass(2.001);
+                this.teamName = scene.sportsGame.teams[teamNumber % 2].name;
                 
             } else {
                 this.setTexture('puck');
@@ -223,7 +224,7 @@
             // debugging viz
             //this.viz_graphic = this.add.graphics({ lineStyle: { color: 0x00ffff } });
 
-            this.periodLength = 100;
+            this.periodLength = 1000;
             this.periodCount = 3;
             this.currentPeriod = 0;
             this.currentPeriodStart = 0;
@@ -277,7 +278,7 @@
             const score_left_goal = this.matter.add.gameObject(this.goal_left_score).setStatic(true).setCollisionGroup(2).setCollidesWith(collision_mask_puck).setCollisionCategory(collision_mask_score);
             score_left_goal.label = "goal";
             score_left_goal.body.label = "goal";
-            score_left_goal.teamGoal = 0;
+            score_left_goal.teamGoal = 1;
             
             this.goal_left_top = this.add.rectangle(this.GoalBackWidth + 20, (fieldHeight / 2) - 64, 48, 8, 0x902090);
             this.matter.add.gameObject(this.goal_left_top).setStatic(true).setCollidesWith(collision_mask_puck | collision_mask_team1 | collision_mask_team2).setCollisionCategory(collision_mask_arena);
@@ -293,7 +294,7 @@
             const score_right_goal = this.matter.add.gameObject(this.goal_right_score).setStatic(true).setCollisionGroup(2).setCollidesWith(collision_mask_puck).setCollisionCategory(collision_mask_score);
             score_right_goal.label = "goal";
             score_right_goal.body.label = "goal";
-            score_right_goal.teamGoal = 1;
+            score_right_goal.teamGoal = 0;
             
             this.goal_right_top = this.add.rectangle(-8 + fieldWidth - this.GoalBackWidth - 20, (fieldHeight / 2) - 64, 48, 8, 0x902090);
             this.matter.add.gameObject(this.goal_right_top).setStatic(true).setCollidesWith(collision_mask_puck | collision_mask_team1 | collision_mask_team2).setCollisionCategory(collision_mask_arena);
@@ -320,10 +321,9 @@
             
 
             this.players = [];
-            const numPlayers = 21;
+            const numPlayers = 9;
             for(let i = 0; i < numPlayers; i++) {
-                const pX = Phaser.Math.FloatBetween(0, fieldWidth);
-                const pY = Phaser.Math.FloatBetween(0, fieldHeight);
+                
                 let sportTeam = -1;
                 let playerID = "UnnamedPlayer";
                 let teamID = null;
@@ -333,39 +333,17 @@
                     const teamNum = (i % 2);
                     if (this.sportsGame.teams.length < teamNum) {
                         teamID = this.sportsGame.teams[(i % 2)].name;
-                    }                    
+                    }               
+                    if (sportTeam == 2 ) {
+                    this.addRandomPlayer(sportTeam, playerID, teamNum, teamID);    
+                    }
+                    
                 }
                 else {
-                    playerID = "puck_0"
+                    playerID = "puck_0";
+                    this.addPuck();
                 }
-                // const personality = {
-                //     diligence: 0.019,
-                //     fear: 0.0,
-                //     distractibility: 0.05,
-                //     teeth: 32,
-                //     twitchiness: 0.41,
-                //     edge: 0.9,
-                //     areodynamics: 0.51,
-                //     gumption: 0.5,
-                //     grit: 0.5
-                // };
-
-                const personality = {
-                    diligence: Phaser.Math.FloatBetween(0.0, 1.0),
-                    fear: Phaser.Math.FloatBetween(0.0, 0.4),
-                    distractibility: Phaser.Math.FloatBetween(0.0, 1.0),
-                    teeth: 32,
-                    twitchiness: Phaser.Math.FloatBetween(0.0, 1.0),
-                    edge: Phaser.Math.FloatBetween(0.0, 1.0),
-                    areodynamics: Phaser.Math.FloatBetween(0.0, 1.0),
-                    gumption: Phaser.Math.FloatBetween(0.0, 1.0),
-                    grit: Phaser.Math.FloatBetween(0.0, 1.0),
-                    fuse: Phaser.Math.FloatBetween(0.0, 1.0)
-                };
-
-                const sportPlayer = this.add.existing(new SportPlayer(this, pX, pY, sportTeam, personality, historyRecorder, playerID));
-
-                this.players.push(sportPlayer);
+                
             }
             this.puck = this.players[0];
             //particles.startFollow(logo);
@@ -512,12 +490,46 @@
 
         addPuck() {
             this.inPlayPuckCount += 1;
-                const pX = Phaser.Math.FloatBetween((fieldWidth / 2) - 50, 50 + (fieldWidth / 2));
-                const pY = Phaser.Math.FloatBetween(0, fieldHeight);
-                let playerID = `puck_${this.inPlayPuckCount}`;
-                let sportTeam = -1;
+            const pX = Phaser.Math.FloatBetween((fieldWidth / 2) - 50, 50 + (fieldWidth / 2));
+            const pY = Phaser.Math.FloatBetween(0, fieldHeight);
+            let playerID = `puck_${this.inPlayPuckCount}`;
+            let sportTeam = -1;
 
-                const personality = {
+            const personality = {
+                    diligence: Phaser.Math.FloatBetween(0.0, 1.0),
+                    fear: Phaser.Math.FloatBetween(0.0, 0.4),
+                    distractibility: Phaser.Math.FloatBetween(0.0, 1.0),
+                    teeth: 32,
+                    twitchiness: Phaser.Math.FloatBetween(0.0, 1.0),
+                    edge: Phaser.Math.FloatBetween(0.0, 1.0),
+                    areodynamics: Phaser.Math.FloatBetween(0.0, 1.0),
+                    gumption: Phaser.Math.FloatBetween(0.0, 1.0),
+                    grit: Phaser.Math.FloatBetween(0.0, 1.0),
+                    fuse: Phaser.Math.FloatBetween(0.0, 1.0)
+            };
+
+            const sportPlayer = this.add.existing(new SportPlayer(this, pX, pY, sportTeam, personality, historyRecorder, playerID));
+
+            this.players.push(sportPlayer);
+        }
+        addRandomPlayer(sportTeam, playerID, teamNum, teamID) {
+
+            const pX = Phaser.Math.FloatBetween(0, fieldWidth);
+                const pY = Phaser.Math.FloatBetween(0, fieldHeight);
+
+            // const personality = {
+                //     diligence: 0.019,
+                //     fear: 0.0,
+                //     distractibility: 0.05,
+                //     teeth: 32,
+                //     twitchiness: 0.41,
+                //     edge: 0.9,
+                //     areodynamics: 0.51,
+                //     gumption: 0.5,
+                //     grit: 0.5
+                // };
+
+            const personality = {
                     diligence: Phaser.Math.FloatBetween(0.0, 1.0),
                     fear: Phaser.Math.FloatBetween(0.0, 0.4),
                     distractibility: Phaser.Math.FloatBetween(0.0, 1.0),
@@ -530,10 +542,11 @@
                     fuse: Phaser.Math.FloatBetween(0.0, 1.0)
                 };
 
-                const sportPlayer = this.add.existing(new SportPlayer(this, pX, pY, sportTeam, personality, historyRecorder, playerID));
+            const sportPlayer = this.add.existing(new SportPlayer(this, pX, pY, sportTeam, personality, historyRecorder, playerID));
 
-                this.players.push(sportPlayer);
-            }
+            this.players.push(sportPlayer);  
+            console.log(sportPlayer);
+        }
 
         angleToPuck(sportPlayer) {
             return Phaser.Math.Angle.Between(sportPlayer.x, sportPlayer.y, this.puck.x, this.puck.y);
