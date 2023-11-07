@@ -4,6 +4,12 @@
     <script src="vendor/phaser.min.js"></script>
 </head>
 <body>
+    <script src="vendor/datascript-0.18.4.min.js"></script>
+  <script src="vendor/winnow/util.js"></script>
+  <script src="vendor/winnow/parser.js"></script>
+  <script src="vendor/winnow/compiler.js"></script>
+  <script src="vendor/winnow/runner.js"></script>
+  <script src="sifter.js"></script>
 
     <script>
 
@@ -20,11 +26,34 @@
     class Metatron {
         constructor() {
             this.history = [];
+            this.partialMatches = compiledPatterns.map(pat => {return {pattern: pat, bindings: {}}});
+
+            this.db = datascript.empty_db(schema);
+            //let parsed = parse(allRawSiftingPatterns);
+            //this.compiledPatterns = compile(parsed);
         }
 
         recordHistory(event) {
-            console.log(event)
-            this.history.push(event)
+            console.log(event);
+            this.history.push(event);
+
+            this.db = addEvent(this.db, event);
+            const latestEventID = newestEID(this.db);
+            const rules = "";
+            const newPartialMatches = mapcat(this.partialMatches, pm => tryAdvance(pm, this.db, rules, latestEventID));
+            const matchGroups = groupBy(pm => pm.lastStep, newPartialMatches);
+            //console.log(matchGroups);
+            const accepts = matchGroups.accept || [];
+            const passes = matchGroups.pass || [];
+            this.partialMatches = accepts.concat(passes);
+            this.announceHistory(matchGroups);
+        }
+
+        announceHistory(matchGroups) {
+            const completedPatterns = matchGroups.complete || [];
+            completedPatterns.forEach(match => {
+                console.log(match.pattern.name);
+            });
         }
 
         reportHistory() {
@@ -186,7 +215,7 @@
             if (this.playerInLimbo) {
 
                 this.history_recorder.recordHistory(
-                    {event: "arenaOutOfBounds",
+                    {event: "arenaInOfBounds",
                     subjectID: this.playerID,
                     message: `${this.playerID} returned to the rink!`,
                     proximateCause: this.lastMoveCause
@@ -340,7 +369,7 @@
             
 
             this.players = [];
-            const numPlayers = 9;
+            const numPlayers = 5;
             for(let i = 0; i < numPlayers; i++) {
                 
                 let sportTeam = -1;
