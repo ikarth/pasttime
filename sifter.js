@@ -1334,14 +1334,14 @@ const allRawSiftingPatterns = `
 (pattern scoreGoal
   (event ?e1 where
     event: sportsPlayerHitsPuck,
-    ;objectID: ?puck
+    objectID: ?puck
     subjectID: ?actor)
   (event ?e2 where
     event: sportsGoalScored,
-    ;subjectID: ?puck,
+    subjectID: ?puck,
     proximateCause: ?actor)
   (unless-event ?eMid between ?e1 ?e2 where
-    ;objectID: ?puck
+    objectID: ?puck
     event: sportsPlayerHitsPuck)
   )
 
@@ -1354,6 +1354,10 @@ const allRawSiftingPatterns = `
     event: sportsPlayerHitsPuck,
     objectID: ?puck
     subjectID: ?actor2)
+  (unless-event ?eMid between ?e1 ?e2 where
+    objectID: ?puck
+    event: arenaPuckResetToCenter
+    event: sportsPlayerHitsPuck)
   (unless-event ?eMid between ?e1 ?e2 where
     objectID: ?puck
     event: arenaPuckResetToCenter
@@ -1430,8 +1434,8 @@ const compiledPatterns = compile(parsed);
 console.log(compiledPatterns[0]);
 //console.log(datascript.q(compiledPatterns[0].completeQuery, db));
 
-const matches = getAllMatches(compiledPatterns, db, "", gameHistory);
-console.log(matches);
+//const matches = getAllMatches(compiledPatterns, db, "", gameHistory);
+//console.log(matches);
 
 
 function groupBy(f, xs) {
