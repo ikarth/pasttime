@@ -12,13 +12,30 @@
     // Hlocky event list: building the data model
     //
     // Events:
-    // player hits puck
-    // player collides with player
+    // sportsPlayerHitsPuck: player hits puck
+    // sportsPlayerCollision: player collides with player
+    // sportsGoalScored
+    // arenaOutOfBounds
+    // arenaInOfBounds
+
+    // Game Events:
+    // arenaPuckResetToCenter
+    // sportsGameStart
+    // sportsGameEnd
+    // sportsGamePeriodEnd
+    // sportsGamePeriodStart
+    // sportsGamePeriodOvertime
     //
-    // Patterns:
+    // Bookkeeping events:
+    // sportsScoreReport
+    //
+    // Major Patterns:
     // PlayerX scored a goal for TeamY
     // (TeamZ) PlayerX passed the puck to (TeamZ) PlayerY, who scored a goal for teamZ
     // 
+    // Minor Patterns:
+    // (TeamZ) PlayerX passed the puck to (TeamZ) PlayerY
+    // (TeamZ) PlayerX passed the puck to (TeamW) PlayerY
 
     class Metatron {
         constructor() {
