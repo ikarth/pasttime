@@ -68,6 +68,10 @@ class Metatron {
         console.log(event);
         this.history.push(event);
 
+        for (const attr of Object.keys(event)) {
+            if(event[attr]) { } else { console.log()}
+        }
+
         this.db = addEvent(this.db, event);
         const latestEventID = newestEID(this.db);
         const rules = "";
@@ -213,6 +217,8 @@ preUpdate (time, delta)
 
 update(time, delta)
 {
+
+    const currentTime = this.scene.game.getFrame();
     
     if (this.isPuck) {
         //console.log(this);
@@ -242,7 +248,7 @@ update(time, delta)
         this.history_recorder.recordHistory({   
                 currentGame: this.scene.sportsGame.gameID,
                 currentPeriod: this.scene.currentPeriod,
-                timeStep: time,
+                timeStep: currentTime,
                 event: "arenaOutOfBounds",
                 place: "limbo",
                 actor: this.playerID,
@@ -259,7 +265,7 @@ update(time, delta)
         this.history_recorder.recordHistory({
             currentGame: this.scene.sportsGame.gameID,
             currentPeriod: this.scene.currentPeriod,
-            timeStep: time,
+            timeStep: currentTime,
             event: "arenaInOfBounds",
             place: "arena",
             actor: this.playerID,
@@ -445,6 +451,8 @@ update(time, delta)
 
             this.matter.world.on("collisionstart", (event, bodyA, bodyB) => {
 
+                const currentTime = this.game.getFrame();
+
                 if((bodyA.label == "playerSensor") && (bodyB.label == "puck")) {
                     // TODO
                 }
@@ -482,7 +490,7 @@ update(time, delta)
                     historyRecorder.recordHistory({
                         currentGame: this.sportsGame.gameID,
                         currentPeriod: this.currentPeriod,
-                        timeStep: time,
+                        timeStep: currentTime,
                         event: "sportsPlayerHitsPuck",
                         actor: PlayerA_ID,
                         actorTeam: the_player.teamName,
@@ -540,7 +548,7 @@ update(time, delta)
                     historyRecorder.recordHistory({
                         currentGame: this.sportsGame.gameID,
                         currentPeriod: this.currentPeriod,
-                        timeStep: time,
+                        timeStep: currentTime,
                         event: "sportsGoalScored",
                         target: the_puck.gameObject.playerID,
                         actor: lastHit,
@@ -558,7 +566,7 @@ update(time, delta)
                     historyRecorder.recordHistory({
                         currentGame: this.sportsGame.gameID,
                         currentPeriod: this.currentPeriod,
-                        timeStep: time,
+                        timeStep: currentTime,
                         event: "sportsScoreReport",
                         actor: lastHit,
                         target: the_puck.gameObject.playerID,
@@ -575,7 +583,7 @@ update(time, delta)
                     historyRecorder.recordHistory({
                         currentGame: this.sportsGame.gameID,
                         currentPeriod: this.currentPeriod,
-                        timeStep: time,
+                        timeStep: currentTime,
                         event: "arenaPuckResetToCenter",
                         target: the_puck.gameObject.playerID,
                         message: `Puck ${the_puck.gameObject.playerID} returned to the center point`,
@@ -597,7 +605,7 @@ update(time, delta)
             historyRecorder.recordHistory({
                 currentGame: this.sportsGame.gameID,
                 currentPeriod: this.currentPeriod,
-                timeStep: time,
+                timeStep: 0,
                 event: "sportsGameStart",
                 homeTeam: TeamOne,
                 awayTeam: TeamTwo,
@@ -784,7 +792,7 @@ update(time, delta)
                 historyRecorder.recordHistory({
                     currentGame: this.sportsGame.gameID,
                     currentPeriod: this.currentPeriod,
-                    timeStep: time,
+                    timeStep: currentTime,
                     event: "sportsGamePeriodEnd",
                     subjectID: "game_" + TeamOne + "_" + TeamTwo,
                     message: `End of period ${this.currentPeriod}, score is ${TeamOne} ${ScoreOne}, ${TeamTwo} ${ScoreTwo}`,
@@ -804,7 +812,7 @@ update(time, delta)
                     historyRecorder.recordHistory({
                     currentGame: this.sportsGame.gameID,
                     currentPeriod: this.currentPeriod,
-                    timeStep: time,
+                    timeStep: currentTime,
                     event: "sportsGamePeriodOvertime",
                     subjectID: "game_" + TeamOne + "_" + TeamTwo,
                     message: `The score is tied, ${TeamOne} ${ScoreOne}, ${TeamTwo} ${ScoreTwo}, going to overtime.`,
@@ -817,7 +825,7 @@ update(time, delta)
                     historyRecorder.recordHistory({
                     currentGame: this.sportsGame.gameID,
                     currentPeriod: this.currentPeriod,
-                    timeStep: time,
+                    timeStep: currentTime,
                     event: "sportsGameEnd",
                     subjectID: "game_" + TeamOne + "_" + TeamTwo,
                     message: `Game over. Final score, ${TeamOne} ${ScoreOne}, ${TeamTwo} ${ScoreTwo}.`,
