@@ -8,186 +8,119 @@ const gameHistory = [
     },
     {
         "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
+        "subjectID": "player_2",
         "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_3",
+        "objectID": "puck_1",
+        "message": "player_3 hits the puck_1!",
+        "proximateCause": "player_3"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_3",
+        "objectID": "puck_1",
+        "message": "player_3 hits the puck_1!",
+        "proximateCause": "player_3"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_4",
+        "objectID": "puck_1",
+        "message": "player_4 hits the puck_1!",
+        "proximateCause": "player_4"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_4",
+        "objectID": "puck_1",
+        "message": "player_4 hits the puck_1!",
+        "proximateCause": "player_4"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_1",
+        "objectID": "puck_1",
+        "message": "player_1 hits the puck_1!",
+        "proximateCause": "player_1"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_1",
+        "objectID": "puck_1",
+        "message": "player_1 hits the puck_1!",
+        "proximateCause": "player_1"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_4",
+        "objectID": "puck_1",
+        "message": "player_4 hits the puck_1!",
+        "proximateCause": "player_4"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_4",
+        "objectID": "puck_1",
+        "message": "player_4 hits the puck_1!",
+        "proximateCause": "player_4"
     },
     {
         "event": "sportsGoalScored",
-        "subjectID": "puck",
-        "message": "Goal scored in TeamOne's goal by player_5 !",
-        "proximateCause": "player_5"
+        "subjectID": "puck_1",
+        "message": "Goal scored in TeamOne's goal by player_4 !",
+        "proximateCause": "player_4"
     },
     {
         "event": "sportsScoreReport",
-        "subjectID": "puck",
+        "subjectID": "puck_1",
         "message": "The score is now TeamOne 1 to TeamTwo 0",
-        "proximateCause": "player_5"
+        "proximateCause": "player_4"
     },
     {
         "event": "arenaPuckResetToCenter",
-        "subjectID": "puck",
-        "message": "Puck returned to the center point",
+        "subjectID": "puck_1",
+        "message": "Puck puck_1 returned to the center point",
         "proximateCause": "the Director"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_2",
-        "objectID": "puck_1",
-        "message": "player_2 hits the puck_1!",
-        "proximateCause": "player_2"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_2",
-        "objectID": "puck_1",
-        "message": "player_2 hits the puck_1!",
-        "proximateCause": "player_2"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_7",
-        "objectID": "puck_1",
-        "message": "player_7 hits the puck_1!",
-        "proximateCause": "player_7"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_2",
-        "objectID": "puck_1",
-        "message": "player_2 hits the puck_1!",
-        "proximateCause": "player_2"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_7",
-        "objectID": "puck_1",
-        "message": "player_7 hits the puck_1!",
-        "proximateCause": "player_7"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_7",
-        "objectID": "puck_1",
-        "message": "player_7 hits the puck_1!",
-        "proximateCause": "player_7"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
     },
     {
         "event": "sportsPlayerHitsPuck",
@@ -202,662 +135,6 @@ const gameHistory = [
         "objectID": "puck_1",
         "message": "player_2 hits the puck_1!",
         "proximateCause": "player_2"
-    },
-    {
-        "event": "sportsGamePeriodEnd",
-        "subjectID": "game_TeamOne_TeamTwo",
-        "message": "End of period 1, score is TeamOne 1, TeamTwo 0",
-        "proximateCause": "the Director"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_2",
-        "objectID": "puck_1",
-        "message": "player_2 hits the puck_1!",
-        "proximateCause": "player_2"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_4",
-        "message": "player_4 went out of bounds!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_4",
-        "message": "player_4 returned to the rink!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsGoalScored",
-        "subjectID": "puck",
-        "message": "Goal scored in TeamTwo's goal by player_5 !",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsScoreReport",
-        "subjectID": "puck",
-        "message": "The score is now TeamOne 1 to TeamTwo 1",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "arenaPuckResetToCenter",
-        "subjectID": "puck",
-        "message": "Puck returned to the center point",
-        "proximateCause": "the Director"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_2",
-        "objectID": "puck_1",
-        "message": "player_2 hits the puck_1!",
-        "proximateCause": "player_2"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_7",
-        "objectID": "puck_1",
-        "message": "player_7 hits the puck_1!",
-        "proximateCause": "player_7"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_6",
-        "objectID": "puck_1",
-        "message": "player_6 hits the puck_1!",
-        "proximateCause": "player_6"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_4",
-        "message": "player_4 went out of bounds!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_4",
-        "message": "player_4 returned to the rink!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_6",
-        "objectID": "puck_1",
-        "message": "player_6 hits the puck_1!",
-        "proximateCause": "player_6"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_6",
-        "objectID": "puck_1",
-        "message": "player_6 hits the puck_1!",
-        "proximateCause": "player_6"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_7",
-        "objectID": "puck_1",
-        "message": "player_7 hits the puck_1!",
-        "proximateCause": "player_7"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsGamePeriodEnd",
-        "subjectID": "game_TeamOne_TeamTwo",
-        "message": "End of period 2, score is TeamOne 1, TeamTwo 1",
-        "proximateCause": "the Director"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_8",
-        "objectID": "puck_1",
-        "message": "player_8 hits the puck_1!",
-        "proximateCause": "player_8"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_8",
-        "objectID": "puck_1",
-        "message": "player_8 hits the puck_1!",
-        "proximateCause": "player_8"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_7",
-        "objectID": "puck_1",
-        "message": "player_7 hits the puck_1!",
-        "proximateCause": "player_7"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_6",
-        "objectID": "puck_1",
-        "message": "player_6 hits the puck_1!",
-        "proximateCause": "player_6"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_7",
-        "objectID": "puck_1",
-        "message": "player_7 hits the puck_1!",
-        "proximateCause": "player_7"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_3",
-        "objectID": "puck_1",
-        "message": "player_3 hits the puck_1!",
-        "proximateCause": "player_3"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsGamePeriodEnd",
-        "subjectID": "game_TeamOne_TeamTwo",
-        "message": "End of period 3, score is TeamOne 1, TeamTwo 1",
-        "proximateCause": "the Director"
-    },
-    {
-        "event": "sportsGamePeriodOvertime",
-        "subjectID": "game_TeamOne_TeamTwo",
-        "message": "The score is tied, TeamOne 1, TeamTwo 1, going to overtime.",
-        "proximateCause": "the Director"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsGoalScored",
-        "subjectID": "puck",
-        "message": "Goal scored in TeamOne's goal by player_1 !",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsScoreReport",
-        "subjectID": "puck",
-        "message": "The score is now TeamOne 2 to TeamTwo 1",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaPuckResetToCenter",
-        "subjectID": "puck",
-        "message": "Puck returned to the center point",
-        "proximateCause": "the Director"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_2",
-        "message": "player_1 hits the puck_2!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_2",
-        "message": "player_1 hits the puck_2!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_2",
-        "message": "player_5 hits the puck_2!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_2",
-        "objectID": "puck_2",
-        "message": "player_2 hits the puck_2!",
-        "proximateCause": "player_2"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_2",
-        "message": "player_1 hits the puck_2!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_6",
-        "objectID": "puck_2",
-        "message": "player_6 hits the puck_2!",
-        "proximateCause": "player_6"
-    },
-    {
-        "event": "sportsGoalScored",
-        "subjectID": "puck",
-        "message": "Goal scored in TeamTwo's goal by player_6 !",
-        "proximateCause": "player_6"
-    },
-    {
-        "event": "sportsScoreReport",
-        "subjectID": "puck",
-        "message": "The score is now TeamOne 2 to TeamTwo 2",
-        "proximateCause": "player_6"
-    },
-    {
-        "event": "arenaPuckResetToCenter",
-        "subjectID": "puck",
-        "message": "Puck returned to the center point",
-        "proximateCause": "the Director"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_6",
-        "objectID": "puck_2",
-        "message": "player_6 hits the puck_2!",
-        "proximateCause": "player_6"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_6",
-        "objectID": "puck_1",
-        "message": "player_6 hits the puck_1!",
-        "proximateCause": "player_6"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_6",
-        "objectID": "puck_1",
-        "message": "player_6 hits the puck_1!",
-        "proximateCause": "player_6"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_2",
-        "message": "player_4 hits the puck_2!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
     },
     {
         "event": "sportsPlayerHitsPuck",
@@ -868,408 +145,256 @@ const gameHistory = [
     },
     {
         "event": "sportsGoalScored",
-        "subjectID": "puck",
-        "message": "Goal scored in TeamOne's goal by player_2 !",
-        "proximateCause": "player_2"
-    },
-    {
-        "event": "sportsScoreReport",
-        "subjectID": "puck",
-        "message": "The score is now TeamOne 3 to TeamTwo 2",
-        "proximateCause": "player_2"
-    },
-    {
-        "event": "arenaPuckResetToCenter",
-        "subjectID": "puck",
-        "message": "Puck returned to the center point",
-        "proximateCause": "the Director"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_2",
-        "objectID": "puck_1",
-        "message": "player_2 hits the puck_1!",
-        "proximateCause": "player_2"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_4",
-        "message": "player_4 went out of bounds!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_4",
-        "message": "player_4 returned to the rink!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsGoalScored",
-        "subjectID": "puck",
-        "message": "Goal scored in TeamTwo's goal by player_4 !",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsScoreReport",
-        "subjectID": "puck",
-        "message": "The score is now TeamOne 3 to TeamTwo 3",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "arenaPuckResetToCenter",
-        "subjectID": "puck",
-        "message": "Puck returned to the center point",
-        "proximateCause": "the Director"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_3",
-        "objectID": "puck_1",
-        "message": "player_3 hits the puck_1!",
-        "proximateCause": "player_3"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_3",
-        "objectID": "puck_1",
-        "message": "player_3 hits the puck_1!",
-        "proximateCause": "player_3"
-    },
-    {
-        "event": "sportsGamePeriodEnd",
-        "subjectID": "game_TeamOne_TeamTwo",
-        "message": "End of period 4, score is TeamOne 3, TeamTwo 3",
-        "proximateCause": "the Director"
-    },
-    {
-        "event": "sportsGamePeriodOvertime",
-        "subjectID": "game_TeamOne_TeamTwo",
-        "message": "The score is tied, TeamOne 3, TeamTwo 3, going to overtime.",
-        "proximateCause": "the Director"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_3",
-        "message": "player_5 hits the puck_3!",
-        "proximateCause": "player_5"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_6",
-        "objectID": "puck_3",
-        "message": "player_6 hits the puck_3!",
-        "proximateCause": "player_6"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
-        "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_4",
-        "message": "player_4 went out of bounds!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_4",
-        "message": "player_4 returned to the rink!",
-        "proximateCause": "player_4"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_6",
-        "objectID": "puck_3",
-        "message": "player_6 hits the puck_3!",
-        "proximateCause": "player_6"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_2",
-        "objectID": "puck_3",
-        "message": "player_2 hits the puck_3!",
-        "proximateCause": "player_2"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_7",
-        "objectID": "puck_1",
-        "message": "player_7 hits the puck_1!",
-        "proximateCause": "player_7"
-    },
-    {
-        "event": "sportsGoalScored",
-        "subjectID": "puck",
+        "subjectID": "puck_1",
         "message": "Goal scored in TeamTwo's goal by player_2 !",
         "proximateCause": "player_2"
     },
     {
         "event": "sportsScoreReport",
-        "subjectID": "puck",
-        "message": "The score is now TeamOne 3 to TeamTwo 4",
+        "subjectID": "puck_1",
+        "message": "The score is now TeamOne 1 to TeamTwo 1",
         "proximateCause": "player_2"
     },
     {
         "event": "arenaPuckResetToCenter",
-        "subjectID": "puck",
-        "message": "Puck returned to the center point",
+        "subjectID": "puck_1",
+        "message": "Puck puck_1 returned to the center point",
         "proximateCause": "the Director"
     },
     {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
-    },
-    {
         "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_3",
-        "message": "player_1 hits the puck_3!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
+        "subjectID": "player_4",
         "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
+        "message": "player_4 hits the puck_1!",
+        "proximateCause": "player_4"
     },
     {
         "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_6",
+        "subjectID": "player_4",
         "objectID": "puck_1",
-        "message": "player_6 hits the puck_1!",
-        "proximateCause": "player_6"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_3",
-        "message": "player_1 hits the puck_3!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_1",
-        "message": "player_1 hits the puck_1!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_5",
-        "objectID": "puck_1",
-        "message": "player_5 hits the puck_1!",
-        "proximateCause": "player_5"
+        "message": "player_4 hits the puck_1!",
+        "proximateCause": "player_4"
     },
     {
         "event": "sportsPlayerHitsPuck",
         "subjectID": "player_2",
-        "objectID": "puck_2",
-        "message": "player_2 hits the puck_2!",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
         "proximateCause": "player_2"
     },
     {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 went out of bounds!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "arenaOutOfBounds",
-        "subjectID": "player_1",
-        "message": "player_1 returned to the rink!",
-        "proximateCause": "player_1"
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
     },
     {
         "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_8",
+        "subjectID": "player_4",
         "objectID": "puck_1",
-        "message": "player_8 hits the puck_1!",
-        "proximateCause": "player_8"
+        "message": "player_4 hits the puck_1!",
+        "proximateCause": "player_4"
+    },
+    {
+        "event": "sportsGoalScored",
+        "subjectID": "puck_1",
+        "message": "Goal scored in TeamTwo's goal by player_4 !",
+        "proximateCause": "player_4"
+    },
+    {
+        "event": "sportsScoreReport",
+        "subjectID": "puck_1",
+        "message": "The score is now TeamOne 1 to TeamTwo 2",
+        "proximateCause": "player_4"
+    },
+    {
+        "event": "arenaPuckResetToCenter",
+        "subjectID": "puck_1",
+        "message": "Puck puck_1 returned to the center point",
+        "proximateCause": "the Director"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsGoalScored",
+        "subjectID": "puck_1",
+        "message": "Goal scored in TeamTwo's goal by player_2 !",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsScoreReport",
+        "subjectID": "puck_1",
+        "message": "The score is now TeamOne 1 to TeamTwo 3",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "arenaPuckResetToCenter",
+        "subjectID": "puck_1",
+        "message": "Puck puck_1 returned to the center point",
+        "proximateCause": "the Director"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsGoalScored",
+        "subjectID": "puck_1",
+        "message": "Goal scored in TeamTwo's goal by player_2 !",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsScoreReport",
+        "subjectID": "puck_1",
+        "message": "The score is now TeamOne 1 to TeamTwo 4",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "arenaPuckResetToCenter",
+        "subjectID": "puck_1",
+        "message": "Puck puck_1 returned to the center point",
+        "proximateCause": "the Director"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_3",
+        "objectID": "puck_1",
+        "message": "player_3 hits the puck_1!",
+        "proximateCause": "player_3"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_3",
+        "objectID": "puck_1",
+        "message": "player_3 hits the puck_1!",
+        "proximateCause": "player_3"
+    },
+    {
+        "event": "sportsGamePeriodEnd",
+        "subjectID": "game_TeamOne_TeamTwo",
+        "message": "End of period 1, score is TeamOne 1, TeamTwo 4",
+        "proximateCause": "the Director"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
     },
     {
         "event": "sportsPlayerHitsPuck",
@@ -1280,24 +405,10 @@ const gameHistory = [
     },
     {
         "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_3",
-        "message": "player_1 hits the puck_3!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_1",
-        "objectID": "puck_3",
-        "message": "player_1 hits the puck_3!",
-        "proximateCause": "player_1"
-    },
-    {
-        "event": "sportsPlayerHitsPuck",
-        "subjectID": "player_4",
+        "subjectID": "player_2",
         "objectID": "puck_1",
-        "message": "player_4 hits the puck_1!",
-        "proximateCause": "player_4"
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
     },
     {
         "event": "sportsPlayerHitsPuck",
@@ -1307,18 +418,168 @@ const gameHistory = [
         "proximateCause": "player_1"
     },
     {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_3",
+        "objectID": "puck_1",
+        "message": "player_3 hits the puck_1!",
+        "proximateCause": "player_3"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_3",
+        "objectID": "puck_1",
+        "message": "player_3 hits the puck_1!",
+        "proximateCause": "player_3"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_3",
+        "objectID": "puck_1",
+        "message": "player_3 hits the puck_1!",
+        "proximateCause": "player_3"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
         "event": "sportsGamePeriodEnd",
         "subjectID": "game_TeamOne_TeamTwo",
-        "message": "End of period 5, score is TeamOne 3, TeamTwo 4",
+        "message": "End of period 2, score is TeamOne 1, TeamTwo 4",
+        "proximateCause": "the Director"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsGoalScored",
+        "subjectID": "puck_1",
+        "message": "Goal scored in TeamOne's goal by player_2 !",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsScoreReport",
+        "subjectID": "puck_1",
+        "message": "The score is now TeamOne 2 to TeamTwo 4",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "arenaPuckResetToCenter",
+        "subjectID": "puck_1",
+        "message": "Puck puck_1 returned to the center point",
+        "proximateCause": "the Director"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsPlayerHitsPuck",
+        "subjectID": "player_2",
+        "objectID": "puck_1",
+        "message": "player_2 hits the puck_1!",
+        "proximateCause": "player_2"
+    },
+    {
+        "event": "sportsGamePeriodEnd",
+        "subjectID": "game_TeamOne_TeamTwo",
+        "message": "End of period 3, score is TeamOne 2, TeamTwo 4",
         "proximateCause": "the Director"
     },
     {
         "event": "sportsGameEnd",
         "subjectID": "game_TeamOne_TeamTwo",
-        "message": "Game over. Final score, TeamOne 3, TeamTwo 4.",
+        "message": "Game over. Final score, TeamOne 2, TeamTwo 4.",
         "proximateCause": "the Director",
         "data": {
-            "TeamOne": 3,
+            "TeamOne": 2,
             "TeamTwo": 4
         }
     }
@@ -1356,12 +617,7 @@ const allRawSiftingPatterns = `
     subjectID: ?actor2)
   (unless-event ?eMid between ?e1 ?e2 where
     objectID: ?puck
-    event: arenaPuckResetToCenter
-    event: sportsPlayerHitsPuck)
-  (unless-event ?eMid between ?e1 ?e2 where
-    objectID: ?puck
-    event: arenaPuckResetToCenter
-    event: sportsPlayerHitsPuck)
+    event: arenaPuckResetToCenter)
   )    
 
 (pattern scoreGoalAssist
@@ -1372,11 +628,10 @@ const allRawSiftingPatterns = `
   (event ?e2 where
     event: sportsPlayerHitsPuck,
     objectID: ?puck
-    subjectID: ?actor2
-    proximateCause: ?actor1)
+    subjectID: ?actor2)
   (event ?e3 where
     event: sportsGoalScored,
-    ;subjectID: ?puck
+    subjectID: ?puck
     proximateCause: ?actor2)
   (unless-event ?eMid between ?e1 ?e3 where
     objectID: ?puck
@@ -1434,8 +689,8 @@ const compiledPatterns = compile(parsed);
 console.log(compiledPatterns[0]);
 //console.log(datascript.q(compiledPatterns[0].completeQuery, db));
 
-//const matches = getAllMatches(compiledPatterns, db, "", gameHistory);
-//console.log(matches);
+const matches = getAllMatches(compiledPatterns, db, "", gameHistory);
+console.log(matches);
 
 
 function groupBy(f, xs) {

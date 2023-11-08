@@ -8,6 +8,18 @@
     const fieldHeight = 600;
     const fieldWidth = 800;
 
+
+    // Hlocky event list: building the data model
+    //
+    // Events:
+    // player hits puck
+    // player collides with player
+    //
+    // Patterns:
+    // PlayerX scored a goal for TeamY
+    // (TeamZ) PlayerX passed the puck to (TeamZ) PlayerY, who scored a goal for teamZ
+    // 
+
     class Metatron {
         constructor() {
             this.history = [];
@@ -127,6 +139,7 @@
 
                 this.isPuck = true;
                 this.body.label = "puck";
+                this.teamName = "puck";
                 this.pBody.playerID = this.playerID;
 
                 this.pBody.setVelocity(Phaser.Math.Between(-0.010, 0.010), Phaser.Math.Between(-0.010, 0.010));
@@ -190,9 +203,13 @@
             if (this.x < 0 || this.y < 0 || this.x > fieldWidth || this.y > fieldHeight) {
                 this.history_recorder.recordHistory(
                     {event: "arenaOutOfBounds",
-                    subjectID: this.playerID,
+                    player: this.playerID,
+                    place: "limbo",
+                    actor: this.playerID,
+                    actorTeam: this.teamName,
                     message: `${this.playerID} went out of bounds!`,
-                    proximateCause: this.lastMoveCause
+                    proximateCause: this.lastMoveCause,
+                    tags: ["limbo", "player-event", "arena"]
                 });
 
                 this.playerInLimbo = true;
@@ -201,9 +218,13 @@
 
                 this.history_recorder.recordHistory(
                     {event: "arenaInOfBounds",
-                    subjectID: this.playerID,
+                    player: this.playerID,
+                    place: "arena",
+                    actor: this.playerID,
+                    actorTeam: this.teamName,
                     message: `${this.playerID} returned to the rink!`,
-                    proximateCause: this.lastMoveCause
+                    proximateCause: this.lastMoveCause,
+                    tags: ["limbo", "player-event", "arena"]
                 });
 
                 this.x = Phaser.Math.FloatBetween(0, fieldWidth);
@@ -419,10 +440,15 @@
 
                     historyRecorder.recordHistory({
                         event: "sportsPlayerHitsPuck",
-                        subjectID: PlayerA_ID,
-                        objectID: PlayerB_ID,
+                        player: PlayerA_ID,
+                        puck: PlayerB_ID,
+                        actor: PlayerA_ID,
+                        actorTeam: this.teamName,
+                        target: PlayerB_ID,
+                        targetTeam: the_puck.gameObject.teamName,
                         message: `${PlayerA_ID} hits the ${PlayerB_ID}!`,
-                        proximateCause: PlayerA_ID
+                        proximateCause: PlayerA_ID,
+                        tags: ["play-event", "puck-event", "common"]
                     });
                 }
 
@@ -466,12 +492,20 @@
                     const TeamTwo = this.sportsGame.teams[1].name;
                     const teamThatScoredName = this.sportsGame.teams[teamThatScored].name;
 
+                    console.log(the_puck);
+
                     // log event
                     historyRecorder.recordHistory({
                         event: "sportsGoalScored",
-                        subjectID: the_puck.playerID,
+                        player: lastHit,
+                        puck: the_puck.gameObject.playerID,
+                        target: the_puck.gameObject.playerID,
+                        actor: lastHit,                        
+                    	actorTeam: teamThatScoredName,
+                        subjectID: the_puck.gameObject.playerID,
                         message: `Goal scored in ${teamThatScoredName}'s goal by ${lastHit} !`,
-                        proximateCause: lastHit
+                        proximateCause: lastHit,
+                        tags: ["play-event", "goal", "puck-event"]
                     });
 
                     // increase score
@@ -482,9 +516,12 @@
 
                     historyRecorder.recordHistory({
                         event: "sportsScoreReport",
-                        subjectID: the_puck.playerID,
+                        player: lastHit,
+                        puck: the_puck.gameObject.playerID,
+                        subjectID: the_puck.gameObject.playerID,
                         message: `The score is now ${TeamOne} ${ScoreOne} to ${TeamTwo} ${ScoreTwo}`,
-                        proximateCause: lastHit
+                        proximateCause: lastHit,
+                        tags: ["game-event", "play-event"]
                     });
 
                     //reset puck
@@ -493,9 +530,11 @@
                     the_puck.gameObject.pBody.y = fieldHeight / 2;
                     historyRecorder.recordHistory({
                         event: "arenaPuckResetToCenter",
-                        subjectID: the_puck.playerID,
-                        message: `Puck ${the_puck.playerID} returned to the center point`,
-                        proximateCause: "the Director"
+                        subjectID: the_puck.gameObject.playerID,
+                        puck: the_puck.gameObject.playerID,
+                        message: `Puck ${the_puck.gameObject.playerID} returned to the center point`,
+                        proximateCause: "the Director",
+                        tags: ["game-event", "play-event"]
                     });
                     
                     console.log(this.sportsGame);
