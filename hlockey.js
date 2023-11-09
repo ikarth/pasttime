@@ -62,10 +62,12 @@ class Metatron {
         this.db = datascript.empty_db(schema);
         //let parsed = parse(allRawSiftingPatterns);
         //this.compiledPatterns = compile(parsed);
+
+        this.recordedAnnouncements = [];
     }
 
     recordHistory(event) {
-        console.log(event);
+        //console.log(event);
         this.history.push(event);
 
         for (const attr of Object.keys(event)) {
@@ -91,7 +93,8 @@ class Metatron {
     announceHistory(matchGroups) {
         const completedPatterns = matchGroups.complete || [];
         completedPatterns.forEach(match => {
-            console.log(match.pattern.name);
+            console.log(match.pattern.name, match);
+            this.recordedAnnouncements.push(match);
         });
     }
 
@@ -103,6 +106,7 @@ class Metatron {
         });
         console.log(report);
         console.log(this.history);
+        console.log(groupBy(m => m.pattern.name, this.recordedAnnouncements))
     }
 }
 
@@ -118,6 +122,8 @@ constructor(scene, x, y, teamNumber, personality, history_recorder, playerID)
 
     this.personality = personality;
     this.history_recorder = history_recorder;
+
+    this.pastEvents = [];
 
     this.max_rotation_speed = 4.0;
 
@@ -324,8 +330,8 @@ update(time, delta)
             // debugging viz
             //this.viz_graphic = this.add.graphics({ lineStyle: { color: 0x00ffff } });
 
-            this.periodLength = 500;
-            this.periodCount = 3;
+            this.periodLength = 1000;
+            this.periodCount = 1;
             this.currentPeriod = 0;
             this.currentPeriodStart = 0;
             this.penaltyTime = 0;
@@ -422,7 +428,7 @@ update(time, delta)
             
 
             this.players = [];
-            const numPlayers = 5;
+            const numPlayers = 11;
             for(let i = 0; i < numPlayers; i++) {
                 
                 let sportTeam = -1;
@@ -434,8 +440,11 @@ update(time, delta)
                     const teamNum = (i % 2);
                     if (this.sportsGame.teams.length < teamNum) {
                         teamID = this.sportsGame.teams[(i % 2)].name;
-                    }               
-                    this.addRandomPlayer(sportTeam, playerID, teamNum, teamID);                 
+                    }            
+                    if(sportTeam == 1) {
+                    this.addRandomPlayer(sportTeam, playerID, teamNum, teamID);    
+                    }   
+                    
                 }
                 else {
                     playerID = "puck_0";
@@ -474,7 +483,9 @@ update(time, delta)
                     const PlayerA_ID = the_player.gameObject.playerID;
                     const PlayerB_ID = the_puck.gameObject.playerID;
 
-                    const angle_to_goal = this.angleToGoal(the_player.gameObject);
+                    const angle_to_goal_vals = this.angleToGoal(the_player.gameObject);
+                    const angle_to_goal = angle_to_goal_vals[0];
+                    const accuracyAmount = angle_to_goal_vals[1];
                     const thrust = 0.01;
 
                     if(the_player.gameObject.personality.twitchiness) {
@@ -493,7 +504,8 @@ update(time, delta)
                         timeStep: currentTime,
                         event: "sportsPlayerHitsPuck",
                         actor: PlayerA_ID,
-                        actorTeam: the_player.teamName,
+                        actorTeam: the_player.gameObject.teamName,
+                        accuracy: accuracyAmount,
                         target: PlayerB_ID,
                         targetTeam: the_puck.gameObject.teamName,
                         message: `${PlayerA_ID} hits the ${PlayerB_ID}!`,
@@ -542,8 +554,6 @@ update(time, delta)
                     const TeamTwo = this.sportsGame.teams[1].name;
                     const teamThatScoredName = this.sportsGame.teams[teamThatScored].name;
 
-                    console.log(the_puck);
-
                     // log event
                     historyRecorder.recordHistory({
                         currentGame: this.sportsGame.gameID,
@@ -554,6 +564,7 @@ update(time, delta)
                         actor: lastHit,
                         message: `Goal scored in ${teamThatScoredName}'s goal by ${lastHit} !`,
                         proximateCause: lastHit,
+                        scoringTeam: teamThatScoredName,
                         tags: ["play-event", "goal", "puck-event"]
                     });
 
@@ -591,7 +602,7 @@ update(time, delta)
                         tags: ["game-event", "play-event"]
                     });
                     
-                    console.log(this.sportsGame);
+                    //console.log(this.sportsGame);
 
                 }
             });
@@ -703,9 +714,10 @@ update(time, delta)
             if(sportPlayer.personality.twitchiness) {
                 accuracyVariance = 250.0 * sportPlayer.personality.twitchiness * sportPlayer.personality.twitchiness;
             }
-
-            target_point_x += Phaser.Math.FloatBetween(0 - accuracyVariance, accuracyVariance);
-            target_point_y += Phaser.Math.FloatBetween(0 - accuracyVariance, accuracyVariance);
+            const target_variance_x = Phaser.Math.FloatBetween(0 - accuracyVariance, accuracyVariance);
+            const target_variance_y = Phaser.Math.FloatBetween(0 - accuracyVariance, accuracyVariance);
+            target_point_x += target_variance_x;
+            target_point_y += target_variance_y;
             const hitViz = this.add.circle(target_point_x, target_point_y, 5, hitColor);
             this.timedEvent = this.time.delayedCall(15000, () => {
                 hitViz.destroy();
@@ -718,7 +730,7 @@ update(time, delta)
             //this.viz_graphic.clear().strokeCircle(sportPlayer.x, sportPlayer.y, puck_dist);
 
 
-            return Phaser.Math.Angle.Between(sportPlayer.x, sportPlayer.y, target_point_x, target_point_y);
+            return [Phaser.Math.Angle.Between(sportPlayer.x, sportPlayer.y, target_point_x, target_point_y), target_variance_x+target_variance_y];
         }
 
         resetFaceoff() {
@@ -832,10 +844,10 @@ update(time, delta)
                     proximateCause: "the Director",
                     //data: {TeamOne: ScoreOne, TeamTwo: ScoreTwo}
                     });
-                    this.stop();
+                    this.scene.stop();
 
                     historyRecorder.reportHistory();
-
+                    console.log(historyRecorder);
                 }
             }
             

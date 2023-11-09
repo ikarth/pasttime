@@ -596,29 +596,76 @@ const allRawSiftingPatterns = `
   (event ?e1 where
     event: sportsPlayerHitsPuck,
     target: ?puck
-    actor: ?actor)
+    actor: ?actor
+    actorTeam: ?team1
+    )
   (event ?e2 where
     event: sportsGoalScored,
-    actor: ?puck,
-    proximateCause: ?actor)
+    target: ?puck,
+    actor: ?actor
+    scoringTeam: ?team1
+    )
   (unless-event ?eMid between ?e1 ?e2 where
     target: ?puck
     event: sportsPlayerHitsPuck)
+  )
+
+(pattern scoreGoalOtherTeam
+  (event ?e1 where
+    event: sportsPlayerHitsPuck,
+    target: ?puck
+    actor: ?actor
+    actorTeam: ?team2)
+  (event ?e2 where
+    event: sportsGoalScored
+    target: ?puck
+    actor: ?actor
+    scoringTeam: ?team1
+    (not= ?team1 ?team2))
+
+  ;;(unless-event ?eMid between ?e1 ?e2 where
+  ;;  target: ?puck
+  ;;  event: sportsPlayerHitsPuck)
   )
 
  (pattern passThePuck
   (event ?e1 where
     event: sportsPlayerHitsPuck,
     target: ?puck
-    actor: ?actor1)
+    actor: ?actor1
+    actorTeam: ?team1)
   (event ?e2 where
     event: sportsPlayerHitsPuck,
     target: ?puck
+    actorTeam: ?team1
     actor: ?actor2)
   (unless-event ?eMid between ?e1 ?e2 where
     target: ?puck
     event: arenaPuckResetToCenter)
-  )    
+  ;;(unless-event ?eMid between ?e1 ?e2 where
+  ;;  target: ?puck
+  ;;  event: sportsPlayerHitsPuck)
+    )
+
+ (pattern stealThePuck
+  (event ?e1 where
+    event: sportsPlayerHitsPuck,
+    target: ?puck
+    actor: ?actor1
+    actorTeam: ?team1)
+  (event ?e2 where
+    event: sportsPlayerHitsPuck,
+    target: ?puck
+    actorTeam: ?team2
+    actor: ?actor2
+    (not= ?team1 ?team2))
+  (unless-event ?eMid between ?e1 ?e2 where
+    target: ?puck
+    event: arenaPuckResetToCenter)
+  ;;(unless-event ?eMid between ?e1 ?e2 where
+  ;;  target: ?puck
+  ;;  event: sportsPlayerHitsPuck)
+    )
 
 (pattern scoreGoalAssist
   (event ?e1 where
@@ -628,14 +675,21 @@ const allRawSiftingPatterns = `
   (event ?e2 where
     event: sportsPlayerHitsPuck,
     target: ?puck
-    actor: ?actor2)
+    actor: ?actor2
+    (not= ?actor1 ?actor2))
   (event ?e3 where
     event: sportsGoalScored,
-    actor: ?puck
-    proximateCause: ?actor2)
+    target: ?puck
+    actor: ?actor2)
   (unless-event ?eMid between ?e1 ?e3 where
     target: ?puck
-    event: sportsPlayerHitsPuck)
+    event: arenaPuckResetToCenter)
+  (unless-event ?eMid between ?e1 ?e3 where
+    target: ?puck
+    event: sportsPlayerHitsPuck
+    actor: ?actor3
+    (not= ?actor3 ?actor3)
+    )
   )   
   `;
 
@@ -700,8 +754,8 @@ const compiledPatterns = compile(parsed);
 console.log(compiledPatterns[0]);
 //console.log(datascript.q(compiledPatterns[0].completeQuery, db));
 
-const matches = getAllMatches(compiledPatterns, db, "", gameHistory);
-console.log(matches);
+//const matches = getAllMatches(compiledPatterns, db, "", gameHistory);
+//console.log(matches);
 
 
 function groupBy(f, xs) {
