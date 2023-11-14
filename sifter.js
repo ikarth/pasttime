@@ -671,11 +671,13 @@ const allRawSiftingPatterns = `
   (event ?e1 where
     event: sportsPlayerHitsPuck,
     target: ?puck
-    actor: ?actor1)
+    actor: ?actor1
+    actorTeam: ?team1)
   (event ?e2 where
     event: sportsPlayerHitsPuck,
     target: ?puck
     actor: ?actor2
+    actorTeam: ?team1
     (not= ?actor1 ?actor2))
   (event ?e3 where
     event: sportsGoalScored,
@@ -688,8 +690,7 @@ const allRawSiftingPatterns = `
     target: ?puck
     event: sportsPlayerHitsPuck
     actor: ?actor3
-    (not= ?actor3 ?actor3)
-    )
+    (not= ?actor3 ?actor1))
   )   
   `;
 
