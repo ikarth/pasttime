@@ -592,6 +592,57 @@ const schema = {
 
 const allRawSiftingPatterns = `
 
+(pattern sportsGameStart
+  (event ?e1 where
+    event: sportsGameStart
+    homeTeam: ?homeTeam
+    awayTeam: ?awayTeam
+    ))
+
+(pattern sportsScoreReport
+ (event ?e1 where
+   event: sportsScoreReport
+   homeTeam: ?homeTeam
+    awayTeam: ?awayTeam
+    scoreHome: ?homeScore
+    scoreAway: ?awayScore
+    ))
+
+
+(pattern sportsGameEnd
+ (event ?e1 where
+   event: sportsGameEnd
+   homeTeam: ?homeTeam
+   awayTeam: ?awayTeam
+   scoreHome: ?homeScore
+   scoreAway: ?awayScore
+    ))
+
+(pattern sportsGamePeriodStart
+ (event ?e1 where
+   event: sportsGamePeriodStart
+    homeTeam: ?homeTeam
+    awayTeam: ?awayTeam
+    scoreHome: ?homeScore
+    scoreAway: ?awayScore
+    ))
+
+(pattern sportsGamePeriodEnd
+(event ?e1 where
+   event: sportsGamePeriodEnd
+   homeTeam: ?homeTeam
+    awayTeam: ?awayTeam
+    scoreHome: ?homeScore
+    scoreAway: ?awayScore))
+
+(pattern sportsGamePeriodOvertime
+(event ?e1 where
+   event: sportsGamePeriodOvertime
+   homeTeam: ?homeTeam
+    awayTeam: ?awayTeam
+    scoreHome: ?homeScore
+    scoreAway: ?awayScore))
+
 (pattern scoreGoal
   (event ?e1 where
     event: sportsPlayerHitsPuck,

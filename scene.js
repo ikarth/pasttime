@@ -24,7 +24,7 @@ class sportsGameScene extends Phaser.Scene
             // debugging viz
             //this.viz_graphic = this.add.graphics({ lineStyle: { color: 0x00ffff } });
 
-            this.periodLength = 2000;
+            this.periodLength = 400;
             this.periodCount = 1;
             this.currentPeriod = 0;
             this.currentPeriodStart = 0;
@@ -245,7 +245,9 @@ class sportsGameScene extends Phaser.Scene
                     const TeamOne = this.sportsGame.teams[0].name;
                     const TeamTwo = this.sportsGame.teams[1].name;
                     const teamThatScoredName = this.sportsGame.teams[teamThatScored].name;
-
+                    const ScoreOne = this.sportsGame.score[TeamOne];
+                    const ScoreTwo = this.sportsGame.score[TeamTwo];
+                    
                     // log event
                     historyRecorder.recordHistory({
                         currentGame: this.sportsGame.gameID,
@@ -254,6 +256,10 @@ class sportsGameScene extends Phaser.Scene
                         event: "sportsGoalScored",
                         target: the_puck.gameObject.playerID,
                         actor: lastHit,
+                        scoreAway: ScoreTwo,
+                        scoreHome: ScoreOne,
+                        homeTeam: TeamOne,
+                        awayTeam: TeamTwo,
                         message: `Goal scored in ${teamThatScoredName}'s goal by ${lastHit} !`,
                         proximateCause: lastHit,
                         scoringTeam: teamThatScoredName,
@@ -263,8 +269,7 @@ class sportsGameScene extends Phaser.Scene
                     // increase score
                     this.sportsGame.score[teamThatScoredName] += 1;
 
-                    const ScoreOne = this.sportsGame.score[TeamOne];
-                    const ScoreTwo = this.sportsGame.score[TeamTwo];
+                    
 
                     historyRecorder.recordHistory({
                         currentGame: this.sportsGame.gameID,
@@ -274,6 +279,10 @@ class sportsGameScene extends Phaser.Scene
                         actor: lastHit,
                         target: the_puck.gameObject.playerID,
                         subjectID: the_puck.gameObject.playerID,
+                        scoreAway: ScoreTwo,
+                        scoreHome: ScoreOne,
+                        homeTeam: TeamOne,
+                        awayTeam: TeamTwo,
                         message: `The score is now ${TeamOne} ${ScoreOne} to ${TeamTwo} ${ScoreTwo}`,
                         proximateCause: lastHit,
                         tags: ["game-event", "play-event"]
@@ -498,6 +507,10 @@ class sportsGameScene extends Phaser.Scene
                     currentPeriod: this.currentPeriod,
                     timeStep: currentTime,
                     event: "sportsGamePeriodEnd",
+                    scoreAway: ScoreTwo,
+                    scoreHome: ScoreOne,
+                    homeTeam: TeamOne,
+                    awayTeam: TeamTwo,
                     subjectID: "game_" + TeamOne + "_" + TeamTwo,
                     message: `End of period ${this.currentPeriod}, score is ${TeamOne} ${ScoreOne}, ${TeamTwo} ${ScoreTwo}`,
                     proximateCause: "the Director"
@@ -517,6 +530,10 @@ class sportsGameScene extends Phaser.Scene
                     currentGame: this.sportsGame.gameID,
                     currentPeriod: this.currentPeriod,
                     timeStep: currentTime,
+                    scoreAway: ScoreTwo,
+                    scoreHome: ScoreOne,
+                    homeTeam: TeamOne,
+                    awayTeam: TeamTwo,
                     event: "sportsGamePeriodOvertime",
                     subjectID: "game_" + TeamOne + "_" + TeamTwo,
                     message: `The score is tied, ${TeamOne} ${ScoreOne}, ${TeamTwo} ${ScoreTwo}, going to overtime.`,
@@ -531,6 +548,10 @@ class sportsGameScene extends Phaser.Scene
                     currentPeriod: this.currentPeriod,
                     timeStep: currentTime,
                     event: "sportsGameEnd",
+                    scoreAway: ScoreTwo,
+                    scoreHome: ScoreOne,
+                    homeTeam: TeamOne,
+                    awayTeam: TeamTwo,
                     subjectID: "game_" + TeamOne + "_" + TeamTwo,
                     message: `Game over. Final score, ${TeamOne} ${ScoreOne}, ${TeamTwo} ${ScoreTwo}.`,
                     proximateCause: "the Director",
