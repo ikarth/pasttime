@@ -39,10 +39,13 @@ class sportsGameScene extends Phaser.Scene
 
             this.matter.world.setBounds();
 
+            this.teamOne = teamList[0];
+            this.teamTwo = teamList[1];
+
             this.sportsGame = {
                 gameID: "the game",
                 score: {0: 0, 1: 0},
-                teams: [{name: "TeamOne"}, {name: "TeamTwo"}]
+                teams: [this.teamOne, this.teamTwo]
             }
             this.sportsGame.teams.forEach((t) => {
                 this.sportsGame.score[t.name] = 0;
@@ -122,29 +125,45 @@ class sportsGameScene extends Phaser.Scene
             
 
             this.players = [];
-            const numPlayers = 4;
-            for(let i = 0; i < numPlayers; i++) {
-                
-                let sportTeam = -1;
-                let playerID = "UnnamedPlayer";
-                let teamID = null;
-                if (0 != i) {
-                    sportTeam = 1 + (i % 2);
-                    playerID = `player_${i}`;
-                    const teamNum = (i % 2);
-                    if (this.sportsGame.teams.length < teamNum) {
-                        teamID = this.sportsGame.teams[(i % 2)].name;
-                    }            
-                    this.addRandomPlayer(sportTeam, playerID, teamNum, teamID);    
-                    
-                }
-                else {
-                    playerID = "puck_0";
-                    this.addPuck();
-                }
-                
-            }
+            this.addPuck();
             this.puck = this.players[0];
+            for(const player of this.teamOne.roster) {
+                let sportTeam = 1;
+                let playerID = player.name;
+                let teamID = 0;
+                this.addExistingPlayer(sportTeam, playerID, player, this.teamOne, teamID, this.teamOne.name);
+            }
+
+            for(const player of this.teamTwo.roster) {
+                let sportTeam = 2;
+                let playerID = player.name;
+                let teamID = 1;
+                this.addExistingPlayer(sportTeam, playerID, player, this.teamTwo, teamID, this.teamTwo.name);
+            }
+
+            // const numPlayers = 4;
+            // for(let i = 0; i < numPlayers; i++) {
+                
+            //     let sportTeam = -1;
+            //     let playerID = "UnnamedPlayer";
+            //     let teamID = null;
+            //     if (0 != i) {
+            //         sportTeam = 1 + (i % 2);
+            //         playerID = `player_${i}`;
+            //         const teamNum = (i % 2);
+            //         if (this.sportsGame.teams.length < teamNum) {
+            //             teamID = this.sportsGame.teams[(i % 2)].name;
+            //         }            
+            //         this.addRandomPlayer(sportTeam, playerID, teamNum, teamID);    
+                    
+            //     }
+            //     else {
+            //         playerID = "puck_0";
+            //         this.addPuck();
+            //     }
+                
+            // }
+            // this.puck = this.players[0];
             //particles.startFollow(logo);
 
             //this.physics.world.collide(this.group_wall, this.group_players)
@@ -241,12 +260,15 @@ class sportsGameScene extends Phaser.Scene
                     //console.log(bodyB);
                     const teamThatScored = the_goal.gameObject.teamGoal;
                     const lastHit = the_puck.gameObject.lastMoveCause;
+                    const teamThatScoredName = this.sportsGame.teams[teamThatScored].name;
+                    
+                    // increase score
+                    this.sportsGame.score[teamThatScoredName] += 1;
 
                     const TeamOne = this.sportsGame.teams[0].name;
                     const TeamTwo = this.sportsGame.teams[1].name;
-                    const teamThatScoredName = this.sportsGame.teams[teamThatScored].name;
-                    const ScoreOne = this.sportsGame.score[TeamOne];
-                    const ScoreTwo = this.sportsGame.score[TeamTwo];
+                    let ScoreOne = this.sportsGame.score[TeamOne];
+                    let ScoreTwo = this.sportsGame.score[TeamTwo];
                     
                     // log event
                     historyRecorder.recordHistory({
@@ -266,8 +288,7 @@ class sportsGameScene extends Phaser.Scene
                         tags: ["play-event", "goal", "puck-event"]
                     });
 
-                    // increase score
-                    this.sportsGame.score[teamThatScoredName] += 1;
+                    
 
                     
 
@@ -351,10 +372,20 @@ class sportsGameScene extends Phaser.Scene
             historyRecorder.recordPlayer(sportPlayer);
             this.players.push(sportPlayer);
         }
+        addExistingPlayer(sportTeam, playerID, playerData, teamData, teamIDNum, TeamName) {
+            const pX = Phaser.Math.FloatBetween(0, fieldWidth);
+            const pY = Phaser.Math.FloatBetween(0, fieldHeight);
+            // (scene, x, y, teamNumber, personality, history_recorder, playerID)
+            const sportPlayer = this.add.existing(new SportPlayer(this, pX, pY, teamIDNum, playerData.personality, historyRecorder, playerID));
+            this.players.push(sportPlayer);  
+            historyRecorder.recordPlayer(sportPlayer);
+            console.log(sportPlayer);
+        }
         addRandomPlayer(sportTeam, playerID, teamNum, teamID) {
 
             const pX = Phaser.Math.FloatBetween(0, fieldWidth);
-                const pY = Phaser.Math.FloatBetween(0, fieldHeight);
+            const pY = Phaser.Math.FloatBetween(0, fieldHeight);
+
 
             // const personality = {
                 //     diligence: 0.019,

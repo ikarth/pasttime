@@ -1,16 +1,19 @@
+function extractBindingsToGrammar(e) {
+	let bind = {}
+	for(const [key, value] of Object.entries(e.bindings)) {
+		bind[key.slice(1)] = "" + value;
+	}
+	return bind;
+}
 
 function scoreGoalFunc(e) {
-	const scoringPlayerName = e.bindings['?actor'];
-	const scoringTeamName = e.bindings['?team1'];
-	//console.log(e.bindings.?actor);
-	return tracery.createGrammar({'origin': '<p>#comment#</p>',
-		"comment": [
-		`#playerName# takes the shot. #teamName# scores!`, 
-		`Scoring for #teamName#, was number #playerNumber#, #playerName.`],
-		'teamName': scoringTeamName,
-		'playerName': scoringPlayerName,
-		'playerNumber': scoringPlayerNumber
-	});
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p>#comment#</p>';
+	binds.comment = [
+		`#actor# takes the shot. #team1# scores!`, 
+		`Scoring for #team1#, was #actor#.`
+		];
+	return tracery.createGrammar(binds);
 }
 
 function sportsGameStartFunc(e) {
@@ -31,19 +34,28 @@ function sportsGameStartFunc(e) {
 //     ))
 
 function sportsScoreReportFunc(e) {
-	const homeTeam = e.bindings['?homeTeam'];
-	const awayTeam = e.bindings['?awayTeam'];
-	const homeScore = e.bindings['?homeScore'];
-	const awayScore = e.bindings['?awayScore'];
-	return tracery.createGrammar({'origin': '<p>#comment#</p>',
-		"comment": ["The score stands at #homeTeam# #homeScore#, #awayTeam# #awayScore#",
-			"Current score, #homeTeam# #homeScore#, #awayTeam# #awayScore#."],
-		'homeTeam': homeTeam,
-		'awayTeam': awayTeam,
-		'homeScore': homeScore,
-		'awayScore': awayScore
-	});
+	const binds = extractBindingsToGrammar(e);
+	// const homeTeam = e.bindings['?homeTeam'];
+	// const awayTeam = e.bindings['?awayTeam'];
+	// const homeScore = e.bindings['?homeScore'];
+	// const awayScore = e.bindings['?awayScore'];
+	binds.origin = '<p>#comment#</p>';
+	binds.comment = [
+		"The score stands at #homeTeam# #homeScore#, #awayTeam# #awayScore#.",
+		"Current score, #homeTeam# #homeScore#, #awayTeam# #awayScore#."
+		];
+	return tracery.createGrammar(binds);
 }
+const sportsScoreReportPattern = `
+(pattern sportsScoreReport
+ (event ?e1 where
+   event: sportsScoreReport
+   homeTeam: ?homeTeam
+    awayTeam: ?awayTeam
+    homeScore: ?homeScore
+    awayScore: ?awayScore
+    ))`;
+
 // (pattern sportsScoreReport
 //  (event ?e1 where
 //    event: sportsScoreReport
@@ -54,17 +66,10 @@ function sportsScoreReportFunc(e) {
 //     ))
 
 function sportsGameEndFunc(e) {
-	const homeTeam = e.bindings['?homeTeam'];
-	const awayTeam = e.bindings['?awayTeam'];
-	const homeScore = e.bindings['?homeScore'];
-	const awayScore = e.bindings['?awayScore'];
-	return tracery.createGrammar({'origin': '<p>#comment#</p>',
-		"comment": ["Game over. Final score, #homeTeam# #homeScore#, #awayTeam# #awayScore#"],
-		'homeTeam': homeTeam,
-		'awayTeam': awayTeam,
-		'homeScore': homeScore,
-		'awayScore': awayScore
-	});
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p>#comment#</p>';
+	binds.comment = ["Game over. Final score, #homeTeam# #homeScore#, #awayTeam# #awayScore#"];
+	return tracery.createGrammar(binds);
 }
 // (pattern sportsGameEnd
 //  (event ?e1 where
@@ -76,17 +81,10 @@ function sportsGameEndFunc(e) {
 //     ))
 
 function sportsGamePeriodStartFunc(e) {
-	const homeTeam = e.bindings['?homeTeam'];
-	const awayTeam = e.bindings['?awayTeam'];
-	const homeScore = e.bindings['?homeScore'];
-	const awayScore = e.bindings['?awayScore'];
-	return tracery.createGrammar({'origin': '<p>#comment#</p>',
-		"comment": ["We're starting period #periodNum#."],
-		'homeTeam': homeTeam,
-		'awayTeam': awayTeam,
-		'homeScore': homeScore,
-		'awayScore': awayScore
-	});
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p>#comment#</p>';
+	binds.comment = ["We're starting period #periodNum#."];
+	return tracery.createGrammar(binds);
 }
 // (pattern sportsGamePeriodStart
 //  (event ?e1 where
@@ -98,17 +96,10 @@ function sportsGamePeriodStartFunc(e) {
 //     ))
 
 function sportsGamePeriodEndFunc(e) {
-	const homeTeam = e.bindings['?homeTeam'];
-	const awayTeam = e.bindings['?awayTeam'];
-	const homeScore = e.bindings['?homeScore'];
-	const awayScore = e.bindings['?awayScore'];
-	return tracery.createGrammar({'origin': '<p>#comment#</p>',
-		"comment": ["And that's the end of period #periodNum#; the score is  #homeTeam# #homeScore#, #awayTeam# #awayScore#."],
-		'homeTeam': homeTeam,
-		'awayTeam': awayTeam,
-		'homeScore': homeScore,
-		'awayScore': awayScore
-	});
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p>#comment#</p>';
+	binds.comment = ["And that's the end of this period; the score is #homeTeam# #homeScore#, #awayTeam# #awayScore#."];
+	return tracery.createGrammar(binds);
 }
 // (pattern sportsGamePeriodEnd
 // (event ?e1 where
@@ -119,17 +110,10 @@ function sportsGamePeriodEndFunc(e) {
 //     scoreAway: ?awayScore))
 
 function sportsGamePeriodOvertimeFunc(e) {
-	const homeTeam = e.bindings['?homeTeam'];
-	const awayTeam = e.bindings['?awayTeam'];
-	const homeScore = e.bindings['?homeScore'];
-	const awayScore = e.bindings['?awayScore'];
-	return tracery.createGrammar({'origin': '<p>#comment#</p>',
-		"comment": ["We're going into overtime. The score is tied at #homeTeam# #homeScore#, #awayTeam# #awayScore#"],
-		'homeTeam': homeTeam,
-		'awayTeam': awayTeam,
-		'homeScore': homeScore,
-		'awayScore': awayScore
-	});
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p>#comment#</p>';
+	binds.comment = ["We're going into overtime. The score is tied at #homeTeam# #homeScore#, #awayTeam# #awayScore#"];
+	return tracery.createGrammar(binds);
 }
 // (pattern sportsGamePeriodOvertime
 // (event ?e1 where
@@ -152,18 +136,10 @@ function stealThePuckFunc(e) {
 }
 
 function scoreGoalAssistFunc(e) {
-	const scoringPlayerName = e.bindings['?actor2'];
-	const scoringPlayerNameAssist = e.bindings['?actor1'];
-	const scoringTeamName = e.bindings['?team1'];
-	console.log();
-	//console.log(e.bindings.?actor);
-	return tracery.createGrammar({'origin': '<p>#comment#</p>',
-		"comment": [
-		`Assist by #assistName#, passing to #playerName#.`],
-		'teamName': scoringTeamName,
-		'playerName': scoringPlayerName,
-		'assistName': scoringPlayerNameAssist
-	});
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p>#comment#</p>';
+	binds.comment = [`Assist by #assistName#, passing to #playerName#.`];
+	return tracery.createGrammar(binds);
 }
 
 const commentaryFunctions = {
@@ -254,6 +230,8 @@ class Metatron {
 
         this.recordedAnnouncements.forEach(m => {
         	const commentary = commentateTranscript(m);
+        	console.log(commentary);
+        	console.log(m);
         	if (typeof(commentary) == 'string') {
         		transcribeBookPassage(commentary);
         	} else {

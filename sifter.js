@@ -672,7 +672,11 @@ const allRawSiftingPatterns = `
     target: ?puck
     actor: ?actor
     scoringTeam: ?team1
-    (not= ?team1 ?team2))
+    (not= ?team1 ?team2)
+  (unless-event ?eMid between ?e1 ?e2 where
+    target: ?puck
+    event: sportsPlayerHitsPuck
+  ))
 
   ;;(unless-event ?eMid between ?e1 ?e2 where
   ;;  target: ?puck
