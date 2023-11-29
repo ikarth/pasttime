@@ -1,5 +1,39 @@
+class leagueGameScene extends Phaser.Scene 
+{
+    constructor ()
+    {
+        super({ key: 'leagueGameScene' });
+    }
+
+    preload() {
+
+    }
+
+    create() {
+        const _this = this;
+
+        this.input.once('pointerdown', function ()
+        {
+
+            this.scene.launch('sportsGameScene');
+
+        }, this);
+
+    }
+
+    update(time, delta) {
+
+
+    }
+}
+
 class sportsGameScene extends Phaser.Scene
     {
+        constructor ()
+        {
+            super({ key: 'sportsGameScene' });
+        }
+
         preload ()
         {
             //this.load.setBaseURL('.');

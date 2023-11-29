@@ -195,7 +195,13 @@ class Metatron {
         this.db = addEvent(this.db, event);
         const latestEventID = newestEID(this.db);
         const rules = "";
-        const newPartialMatches = mapcat(this.partialMatches, pm => tryAdvance(pm, this.db, rules, latestEventID));
+        //console.log(this.db);
+        //console.log(this.partialMatches);
+        //console.log(latestEventID);
+
+        const newPartialMatches = mapcat(this.partialMatches, pm => {
+        	//console.log(pm);
+        	return tryAdvance(pm, this.db, rules, latestEventID);});
         const matchGroups = groupBy(pm => pm.lastStep, newPartialMatches);
         //console.log(matchGroups);
         const accepts = matchGroups.accept || [];
