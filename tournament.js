@@ -32,6 +32,7 @@ function makeTournament(teams) {
 	tourny.teams = shuffle(tourny.teams);
 	tourny.winner = false;
 	tourny.eliminated = [];
+	tourny.games = [];
 
 	return tourny;
 }
@@ -106,3 +107,7 @@ while(test_tourny.winner == false) {
 	test_tourny = playTournamentGames(test_tourny);
 	console.log(test_tourny);
 }
+
+
+
+let globalGameCount = 0;

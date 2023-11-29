@@ -746,12 +746,12 @@ const allRawSiftingPatterns = `
 
 
 function addEntity(db, entity) {
-  console.log(db);
+  //console.log(db);
   const transaction = [[":db/add", -1, "type", "entity"]];
-  console.log(entity);
+  //console.log(entity);
   transaction.push([":db/add", -1, "playerID", entity.playerID]);
   db = datascript.db_with(db, transaction);
-  console.log( datascript.datoms(db, ":eavt"));
+  //console.log( datascript.datoms(db, ":eavt"));
   entity.databaseID = newestEID(db);
   return db;
 }

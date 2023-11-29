@@ -17,14 +17,15 @@ function scoreGoalFunc(e) {
 }
 
 function sportsGameStartFunc(e) {
-	const homeTeam = e.bindings['?homeTeam'];
-	const awayTeam = e.bindings['?awayTeam'];
-	return tracery.createGrammar({'origin': '<h2>#headline#</h2><p>#comment#</p>',
-		"headline": "Game #gameNum#: #homeTeam# vs. #awayTeam#",
-		"comment": ["Welcome to #homeTeam# vs. #awayTeam#."],
-		'homeTeam': homeTeam,
-		'awayTeam': awayTeam
-	});
+	// const homeTeam = e.bindings['?homeTeam'];
+	// const awayTeam = e.bindings['?awayTeam'];
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<h2>#headline#</h2><p>#comment#</p>';
+	binds.comment = ["Welcome to #homeTeam# vs. #awayTeam#."];
+	binds.headline = "Game #gameNum#: #homeTeam# vs. #awayTeam#";
+	binds.gameNum = "" + globalGameCount; 
+	console.log(binds);
+	return tracery.createGrammar(binds);
 }
 // (pattern sportsGameStart
 //   (event ?e1 where
