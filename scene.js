@@ -168,6 +168,8 @@ class sportsGameScene extends Phaser.Scene
 
         initSportsGame(teams) {
             console.log("initSportsGame");
+            historyRecorder = new Metatron();
+
             this.currentPeriod = 0;
             this.currentPeriodStart = 0;
             this.penaltyTime = 0;
@@ -223,6 +225,7 @@ class sportsGameScene extends Phaser.Scene
                 event: "sportsGameStart",
                 homeTeam: TeamOne,
                 awayTeam: TeamTwo,
+                gameNum: this.sportsGame.gameNum,
                 message: `The game between ${TeamOne} and ${TeamTwo} begins.`,
                 proximateCause: "the Director"
             });
@@ -328,6 +331,10 @@ class sportsGameScene extends Phaser.Scene
                     const TeamTwo = this.sportsGame.teams[1].name;
                     let ScoreOne = this.sportsGame.score[TeamOne];
                     let ScoreTwo = this.sportsGame.score[TeamTwo];
+
+                    if (lastHit == undefined) {
+                       lastHit = "no one"; 
+                    }
                     
                     // log event
                     historyRecorder.recordHistory({

@@ -597,6 +597,7 @@ const allRawSiftingPatterns = `
     event: sportsGameStart
     homeTeam: ?homeTeam
     awayTeam: ?awayTeam
+    gameNum: ?gameNum
     ))
 
 (pattern sportsScoreReport

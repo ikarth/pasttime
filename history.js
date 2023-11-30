@@ -13,6 +13,14 @@ function scoreGoalFunc(e) {
 		`#actor# takes the shot. #team1# scores!`, 
 		`Scoring for #team1#, was #actor#.`
 		];
+	binds.puck = [
+		"puck", "careening puck", "wild puck"];
+	if (binds.actor == "no one") {
+		bonds.comment = [
+			`The #puck# goes in to the #team1# goal!`,
+			`The #puck# went into the net! It's the #team1#'s point!`
+		];
+	}
 	return tracery.createGrammar(binds);
 }
 
@@ -23,7 +31,7 @@ function sportsGameStartFunc(e) {
 	binds.origin = '<h2>#headline#</h2><p>#comment#</p>';
 	binds.comment = ["Welcome to #homeTeam# vs. #awayTeam#."];
 	binds.headline = "Game #gameNum#: #homeTeam# vs. #awayTeam#";
-	binds.gameNum = "" + globalGameCount; 
+	//binds.gameNum = "" + globalGameCount; 
 	console.log(binds);
 	return tracery.createGrammar(binds);
 }
@@ -185,8 +193,13 @@ class Metatron {
         this.recordedAnnouncements = [];
     }
 
+    resetPartialMatches() {
+    	this.partialMatches = compiledPatterns.map(pat => {return {pattern: pat, bindings: {}}});
+    	this.db = datascript.empty_db(schema);
+    }
+
     recordHistory(event) {
-        //console.log(event);
+        console.log(event);
         this.history.push(event);
 
         for (const attr of Object.keys(event)) {
@@ -218,7 +231,9 @@ class Metatron {
     announceHistory(matchGroups) {
         const completedPatterns = matchGroups.complete || [];
         completedPatterns.forEach(match => {
-            console.log(match.pattern.name, match);
+            if(false) {
+            	console.log(match.pattern.name, match);
+            }
             this.recordedAnnouncements.push(match);
         });
     }
@@ -247,5 +262,7 @@ class Metatron {
         		transcribeBookPassage(flatOutput)
         	}
         });
+
+        this.resetPartialMatches();
     }
 }

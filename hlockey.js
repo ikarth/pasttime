@@ -54,7 +54,7 @@ const fieldWidth = 800;
 //     tags: ["play-event", "puck-event", "common"]
 // });
 
-const historyRecorder = new Metatron();
+let historyRecorder = new Metatron();
 
 class SportPlayer extends Phaser.Physics.Arcade.Sprite {
 constructor(scene, x, y, teamNumber, personality, history_recorder, playerID)
