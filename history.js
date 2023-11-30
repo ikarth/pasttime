@@ -8,7 +8,7 @@ function extractBindingsToGrammar(e) {
 
 function scoreGoalFunc(e) {
 	const binds = extractBindingsToGrammar(e);
-	binds.origin = '<p>#comment#</p>';
+	binds.origin = '<p><strong>#comment#</strong></p>';
 	binds.comment = [
 		`#actor# takes the shot. #team1# scores!`, 
 		`Scoring for #team1#, was #actor#.`
@@ -133,23 +133,191 @@ function sportsGamePeriodOvertimeFunc(e) {
 //     scoreAway: ?awayScore))
 
 function scoreGoalOtherFunc(e) {
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p><strong>#comment#</strong></p>';
+	binds.shoots = ["shoots", "hits the puck", "tries to line up the shot", "connects", "hits it", "takes a swipe", "bats it with the stick"];
+	binds.the_puck = ["the puck", "the puck", "the hot puck", "the puck", "the biscuit", "the puck", "it"];
+	binds.comment = ["#actor# #shoots#, but #the_puck# goes in the other team's net! A point for the #team1#!",
+		"The #team2#'s #actor# #shoots#, #the_puck# goes wild, into #team1#'s net!",
+		"Well, that's embarassing. #actor# just managed to hit #the_puck# into the #team1#'s goal!"];
+	return tracery.createGrammar(binds);
 	return "";
+}
+
+// (pattern scoreGoalOtherTeam
+//   (event ?e1 where
+//     event: sportsPlayerHitsPuck,
+//     target: ?puck
+//     actor: ?actor
+//     actorTeam: ?team2)
+//   (event ?e2 where
+//     event: sportsGoalScored
+//     target: ?puck
+//     actor: ?actor
+//     scoringTeam: ?team1
+//     (not= ?team1 ?team2))
+//   (unless-event ?eMid between ?e1 ?e2 where
+//     target: ?puck
+//     event: sportsPlayerHitsPuck)
+//     )
+
+function randomHit() {
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p>#comment#</p>';
+	binds.oof = ["Oof", "Ouch", "Yeesh", "Youch"];
+	binds.oofpunct = [".", "!"];
+	binds.oofremark = ["That looked painful.", "Looks like that hurt.", "That's gonna leave a mark."];
+	binds.comment = [`#oof##oofpunct# #oofremark#`];
+	return tracery.createGrammar(binds);
+}
+
+function randomCommentary(e) {
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p>#comment#</p>';
+	binds.oof = ["Oof", "Ouch", "Yeesh", "Youch"];
+	binds.oofpunct = [".", "!"];
+	binds.oofremark = ["That looked painful.", "Looks like that hurt.", "That's gonna leave a mark."];
+	binds.vague = ["I can't believe what I'm watching", "This is getting intense", "They're gonna remember that one", "I can hardly keep up", "The #team1# are keeping them off balance", "The #team1# are keeping the pressure on", "You don't see that in videogames", "You saw it here, folks", "That's gonna throw them for a loop", "They're on their game tonight", "That's a unique way to play", "You don't see that every day", "Let's see if that works out for them", "None of you are free of sin", "What is this, a team of clowns", "That was exceptional", "That sucked", "What is this shit", "Looks like it'll be a long game for #team1#"];
+	binds.sponsormessage = ["The Maple Syrup Distillers Association: We Stab Trees.",
+		"Moose. Oh god its on the road.",
+		"The Film Board of Canada.",
+		"Hlockey: the sport of random ultraviolence.",
+		"The National Hlockey League.",
+		"The Muppets: Sex and Violence. Coming to a theater near you.",
+		"It's Alex's birthday! Happy birthday Alex!",
+		"Pluto: It's not a planet...yet.",
+		"The Birds. This is for'em.",
+		"The Toronto Dentists Guild.",
+		"The Charismatic Megafauna Preservation Society.",
+		"The Association for the Awareness of Seasonal Aggression Disorder."];
+	binds.comment = [`#oof##oofpunct# #oofremark#`,
+		"#vague##oofpunct#", "#vague##oofpunct#",
+		"",
+		"",
+		"",
+		"",
+		"#team1# is on the move",
+		`And now for a word from our sponsor: #sponsormessage#`];
+	return tracery.createGrammar(binds);
 }
 
 function passThePuckFunc(e) {
-	return "";
+	if (Math.random() < 0.7) {
+		return randomCommentary(e);
+	}
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p>#comment#</p>';
+	binds.passes = ["passes", "executes a clean pass", "cycles", "does the give-and-go", "exchanges", "passes", "goes tape to tape", "makes a filthy pass", "makes a pass", "makes a clean pass"];
+	binds.comment = [
+		"The #team1#'s #actor1# #passes# to #actor2#.",
+		"Good pass from #actor1# to #actor2#.",
+		"Keeping the momentum going, #actor1# #passes# to #actor2#.",
+		"The puck is passed to #actor2#.",
+		"#actor1# sends the puck laterally. Picked up by #actor2#.",
+		"#actor1# #passes# to #actor2#.",
+		"#actor1# sends the puck laterally. Picked up by #actor2#.",
+		"#actor1# #passes# to #actor2#.",
+		"#actor1# #passes# to #actor2#.",
+		"#actor1# #passes# to #actor2#.",
+		"#actor1# #passes# to #actor2#.",
+		"#actor1# #passes# to #actor2#.",
+		"#actor1# #passes#, #actor2# picks it up.",
+		"#actor1# #passes#.",
+		"A pass to #actor2#",
+		"A pass by #actor1#",
+		"A pass to #actor2#",
+		"A pass by #actor1#",
+		];
+	return tracery.createGrammar(binds);
 }
 
+ // (pattern passThePuck
+ //  (event ?e1 where
+ //    event: sportsPlayerHitsPuck,
+ //    target: ?puck
+ //    actor: ?actor1
+ //    actorTeam: ?team1)
+ //  (event ?e2 where
+ //    event: sportsPlayerHitsPuck,
+ //    target: ?puck
+ //    actorTeam: ?team1
+ //    actor: ?actor2)
+ //  (unless-event ?eMid between ?e1 ?e2 where
+ //    target: ?puck
+ //    event: arenaPuckResetToCenter)
+ //  ;;(unless-event ?eMid between ?e1 ?e2 where
+ //  ;;  target: ?puck
+ //  ;;  event: sportsPlayerHitsPuck)
+ //    )
+
 function stealThePuckFunc(e) {
-	return "";
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p>#comment#</p>';
+	binds.comment = [
+		"#actor2# steals the puck from the #team1#!",
+		"#actor2# steals the puck from #actor1#!",
+		"That's a steal as #actor2# takes control of the puck from the #team1#!",
+		"That's a steal as #actor2# takes control of the puck!",
+		"#actor2# steals the puck from #actor1# of the #team1#!",
+		"#actor2# steals the puck from #actor1#; now the #team2# are on the offense!",
+		"#actor2# steals the puck from #actor1#! The #team2# have the puck!",
+		];
+	return tracery.createGrammar(binds);
 }
+
+ // (pattern stealThePuck
+ //  (event ?e1 where
+ //    event: sportsPlayerHitsPuck,
+ //    target: ?puck
+ //    actor: ?actor1
+ //    actorTeam: ?team1)
+ //  (event ?e2 where
+ //    event: sportsPlayerHitsPuck,
+ //    target: ?puck
+ //    actorTeam: ?team2
+ //    actor: ?actor2
+ //    (not= ?team1 ?team2))
+ //  (unless-event ?eMid between ?e1 ?e2 where
+ //    target: ?puck
+ //    event: arenaPuckResetToCenter)
+ //  ;;(unless-event ?eMid between ?e1 ?e2 where
+ //  ;;  target: ?puck
+ //  ;;  event: sportsPlayerHitsPuck)
+ //    )
 
 function scoreGoalAssistFunc(e) {
 	const binds = extractBindingsToGrammar(e);
 	binds.origin = '<p>#comment#</p>';
-	binds.comment = [`Assist by #assistName#, passing to #playerName#.`];
+	binds.comment = [`Assist by #assistName#, passing to #playerName#.`,
+		`#assistName# passes to #playerName#, setting up the score.`];
 	return tracery.createGrammar(binds);
 }
+
+// (pattern scoreGoalAssist
+//   (event ?e1 where
+//     event: sportsPlayerHitsPuck,
+//     target: ?puck
+//     actor: ?actor1
+//     actorTeam: ?team1)
+//   (event ?e2 where
+//     event: sportsPlayerHitsPuck,
+//     target: ?puck
+//     actor: ?actor2
+//     actorTeam: ?team1
+//     (not= ?actor1 ?actor2))
+//   (event ?e3 where
+//     event: sportsGoalScored,
+//     target: ?puck
+//     actor: ?actor2)
+//   (unless-event ?eMid between ?e1 ?e3 where
+//     target: ?puck
+//     event: arenaPuckResetToCenter)
+//   (unless-event ?eMid between ?e1 ?e3 where
+//     target: ?puck
+//     event: sportsPlayerHitsPuck
+//     actor: ?actor3
+//     (not= ?actor3 ?actor1))
+//   )   
 
 const commentaryFunctions = {
 	"scoreGoal": scoreGoalFunc,
@@ -199,7 +367,7 @@ class Metatron {
     }
 
     recordHistory(event) {
-        console.log(event);
+        //console.log(event);
         this.history.push(event);
 
         for (const attr of Object.keys(event)) {

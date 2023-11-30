@@ -321,7 +321,7 @@ class sportsGameScene extends Phaser.Scene
                     //console.log(bodyA);
                     //console.log(bodyB);
                     const teamThatScored = the_goal.gameObject.teamGoal;
-                    const lastHit = the_puck.gameObject.lastMoveCause;
+                    let lastHit = the_puck.gameObject.lastMoveCause;
                     const teamThatScoredName = this.sportsGame.teams[teamThatScored].name;
                     
                     // increase score
