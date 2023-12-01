@@ -332,12 +332,17 @@ class sportsGameScene extends Phaser.Scene
                         the_player = bodyA;
                     }
 
+                    
+                    the_player.gameObject.pastHits.push(the_puck.gameObject.playerID);
+                    the_puck.gameObject.pastHits.push(the_player.gameObject.playerID);
+                    the_player.gameObject.pastHitsTeam.push("puck");
+                    the_puck.gameObject.pastHitsTeam.push(this.sportsGame.teams[the_player.gameObject.team].name);
+
 
                     const PlayerA_ID = the_player.gameObject.playerID;
                     const PlayerB_ID = the_puck.gameObject.playerID;
                     const PlayerA_ID_Team =  this.sportsGame.teams[the_player.gameObject.team].name;
-                    console.log(PlayerA_ID_Team);
-
+                    
                     const angle_to_goal_vals = this.angleToGoal(the_player.gameObject);
                     const angle_to_goal = angle_to_goal_vals[0];
                     const accuracyAmount = angle_to_goal_vals[1];
@@ -369,6 +374,56 @@ class sportsGameScene extends Phaser.Scene
                         proximateCauseTeam: the_player.gameObject.teamName,
                         tags: ["play-event", "puck-event", "common"]
                     });
+
+                    let currentHit = the_puck.gameObject.pastHits[the_puck.gameObject.pastHits.length-1];
+                    let prevHit = the_puck.gameObject.pastHits[the_puck.gameObject.pastHits.length-2];
+                    let currentHitTeam = the_puck.gameObject.pastHitsTeam[the_puck.gameObject.pastHitsTeam.length-1];
+                    let prevHitTeam = the_puck.gameObject.pastHitsTeam[the_puck.gameObject.pastHitsTeam.length-2];
+                    if (currentHit == undefined) { currentHit = "no one"; }
+                    if (prevHit == undefined) { prevHit = "no one"; }
+                    if (currentHitTeam == undefined) { currentHitTeam = "no team"; }
+                    if (prevHitTeam == undefined) { prevHitTeam = "no team"; }
+                    //console.log(prevHit);
+
+                    if (currentHit != prevHit) {
+                        if (currentHitTeam == prevHitTeam) {
+                            // pass
+                            historyRecorder.recordHistory({
+                                currentGame: this.sportsGame.gameID,
+                                currentPeriod: this.currentPeriod,
+                                timeStep: currentTime,
+                                event: "sportsPlayerPassesPuck",
+                                sourcePlayer: prevHit,
+                                targetPlayer: currentHit,
+                                sourceTeam: prevHitTeam,
+                                accuracy: accuracyAmount,
+                                targetTeam: currentHitTeam,
+                                message: `${prevHit} passes to ${currentHit}!`,
+                                proximateCause: PlayerA_ID,
+                                proximateCauseTeam: the_player.gameObject.teamName,
+                                tags: ["play-event", "puck-event", "common"]
+                            });
+                        } else {
+                            // steal
+                            historyRecorder.recordHistory({
+                                currentGame: this.sportsGame.gameID,
+                                currentPeriod: this.currentPeriod,
+                                timeStep: currentTime,
+                                event: "sportsPlayerStealsPuck",
+                                sourcePlayer: prevHit,
+                                targetPlayer: currentHit,
+                                sourceTeam: prevHitTeam,
+                                accuracy: accuracyAmount,
+                                targetTeam: currentHitTeam,
+                                message: `${currentHit} steals the puck from ${prevHit}!`,
+                                proximateCause: PlayerA_ID,
+                                proximateCauseTeam: the_player.gameObject.teamName,
+                                tags: ["play-event", "puck-event", "common"]
+                            });
+                        }
+                    }
+
+
                 }
 
                 if((bodyA.label == "player") && (bodyB.label == "player")) {
@@ -423,7 +478,41 @@ class sportsGameScene extends Phaser.Scene
                     if (lastHitTeam == undefined) {
                         lastHitTeam = "puck";
                     }
-                    console.log(lastHit);
+
+                
+                    let currentHit = the_puck.gameObject.pastHits[the_puck.gameObject.pastHits.length-1];
+                    let prevHit = the_puck.gameObject.pastHits[the_puck.gameObject.pastHits.length-2];
+                    let currentHitTeam = the_puck.gameObject.pastHitsTeam[the_puck.gameObject.pastHitsTeam.length-1];
+                    let prevHitTeam = the_puck.gameObject.pastHitsTeam[the_puck.gameObject.pastHitsTeam.length-2];
+                    if (currentHit == undefined) { currentHit = "no one"; }
+                    if (prevHit == undefined) { prevHit = "no one"; }
+                    if (currentHitTeam == undefined) { currentHitTeam = "no team"; }
+                    if (prevHitTeam == undefined) { prevHitTeam = "no team"; }
+                    if(currentHitTeam == prevHitTeam) {
+                        if (prevHit != currentHit) {
+                            if(prevHit != "no one") {
+                                historyRecorder.recordHistory({
+                                currentGame: this.sportsGame.gameID,
+                                currentPeriod: this.currentPeriod,
+                                timeStep: currentTime,
+                                event: "sportsGoalAssist",
+                                sourcePlayer: prevHit,
+                                targetPlayer: currentHit,
+                                sourceTeam: prevHitTeam,
+                                targetTeam: currentHitTeam,
+                                scoreAway: ScoreTwo,
+                                scoreHome: ScoreOne,
+                                homeTeam: TeamOne,
+                                awayTeam: TeamTwo,
+                                message: `${currentHit} was assisted by ${prevHit}.`,
+                                proximateCause: lastHit,
+                                scoringTeam: teamThatScoredName,
+                                tags: ["play-event", "goal", "puck-event"]
+                                });
+                            }
+                        }
+                    }
+                    
                     // log event
                     historyRecorder.recordHistory({
                         currentGame: this.sportsGame.gameID,
@@ -465,6 +554,8 @@ class sportsGameScene extends Phaser.Scene
                     });
 
                     //reset puck
+                    the_puck.gameObject.pastHits = [];
+                    the_puck.gameObject.pastHitsTeam = [];
                     the_puck.gameObject.pBody.setVelocity(0,0);
                     the_puck.gameObject.pBody.x = fieldWidth / 2;
                     the_puck.gameObject.pBody.y = fieldHeight / 2;
@@ -493,8 +584,8 @@ class sportsGameScene extends Phaser.Scene
             // debugging viz
             //this.viz_graphic = this.add.graphics({ lineStyle: { color: 0x00ffff } });
 
-            this.periodLength = 400;
-            this.periodCount = 1;
+            this.periodLength = 300;
+            this.periodCount = 3;
             this.currentPeriod = 0;
             this.currentPeriodStart = 0;
             this.penaltyTime = 0;
@@ -620,6 +711,7 @@ class sportsGameScene extends Phaser.Scene
             const pY = Phaser.Math.FloatBetween(0, fieldHeight);
             let playerID = `puck_${this.inPlayPuckCount}`;
             let sportTeam = -1;
+
 
             const personality = {
                     diligence: Phaser.Math.FloatBetween(0.0, 1.0),

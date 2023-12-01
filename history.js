@@ -27,8 +27,8 @@ function scoreGoalFunc(e) {
 	const binds = extractBindingsToGrammar(e);
 	binds.origin = '<p><strong>#comment#</strong></p>';
 	binds.comment = [
-		`#actor# takes the shot. #team1# scores!`, 
-		`Scoring for #team1#, was #actor#.`
+		`#actor# takes the shot. The #team1# score!`, 
+		`Scoring for the #team1#, was #actor#.`
 		];
 	binds.puck = [
 		"puck", "careening puck", "wild puck"];
@@ -200,7 +200,9 @@ function sportsGamePeriodOvertimeFunc(e) {
 
 function scoreGoalOtherFunc(e) {
 	const binds = extractBindingsToGrammar(e);
-	binds.origin = '<p>#team1# vs. #team2# <strong>#comment#</strong></p>';
+	binds.debug = "#team1# vs. #team2# ";
+	binds.debug = ""; 
+	binds.origin = '<p>#debug#<strong>#comment#</strong></p>';
 	binds.shoots = ["shoots", "hits the puck", "tries to line up the shot", "connects", "hits it", "takes a swipe", "bats it with the stick"];
 	binds.the_puck = ["the puck", "the puck", "the hot puck", "the puck", "the biscuit", "the puck", "it"];
 	binds.comment = ["#actor# #shoots#, but #the_puck# goes in the other team's net! A point for the #team1#!",
@@ -269,7 +271,9 @@ function randomCommentary(e) {
 
 function passThePuckFunc(e) {
 	const binds = extractBindingsToGrammar(e);
-	binds.origin = '<p><em>#actor1#->#actor2#</em> #comment#</p>';
+	binds.debug = "<em>#actor1#->#actor2#</em>";
+	binds.debug = "";
+	binds.origin = '<p>#debug##comment#</p>';
 	if (Math.random() < 0.4) {
 		//binds.origin = "";
 	}
@@ -321,7 +325,9 @@ function passThePuckFunc(e) {
 
 function stealThePuckFunc(e) {
 	const binds = extractBindingsToGrammar(e);
-	binds.origin = '<p>#comment#</p>';
+	binds.debug = "<em>#team1#->#team2#</em>";
+	binds.debug = "";
+	binds.origin = '<p>#debug##comment#</p>';
 	binds.comment = [
 		"The #team2# have control of the puck!",
 		"#actor2# steals the puck from the #team1#!",
@@ -454,13 +460,17 @@ class Metatron {
         }
 
         this.db = addEvent(this.db, event);
-        const latestEventID = newestEID(this.db);
+        
+        this.runPartialMatch();
+    }
+
+    runPartialMatch() {
+    	const latestEventID = newestEID(this.db);
         const rules = "";
         //console.log(this.db);
         //console.log(this.partialMatches);
         //console.log(latestEventID);
-
-        const newPartialMatches = mapcat(this.partialMatches, pm => {
+    	const newPartialMatches = mapcat(this.partialMatches, pm => {
         	//console.log(pm);
         	return tryAdvance(pm, this.db, rules, latestEventID);});
         const matchGroups = groupBy(pm => pm.lastStep, newPartialMatches);
@@ -485,7 +495,12 @@ class Metatron {
         });
     }
 
+    cleanHistory() {
+
+    }
+
     reportHistory() {
+
         let report = [];
         this.history.forEach((e) => {
             //console.log(e);
@@ -509,7 +524,7 @@ class Metatron {
         		// TODO: check if it has a flatten() function first
         		const eventID = commentary.raw.e1 + " + " + commentary.raw.e2;
         		const flatOutput = commentary.flatten('#origin#');
-        		transcribeBookPassage(eventID + flatOutput)
+        		transcribeBookPassage(flatOutput)
         	}
         });
 

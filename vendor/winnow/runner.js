@@ -36,24 +36,7 @@ function tryAdvance(partialMatch, db, rules, latestEventID) {
   const boundLvars = Object.keys(bindings);
   const boundValues = Object.values(bindings);
 
-  // check whether this event matches an active unless-event constraint,
-  // and kill the partial match if it does
-  for (const constraint of pattern.globalConstraints) {
-    if (!applicableConstraint(partialMatch, constraint)) continue;
-    const results = datascript.q(
-      `[:find ${constraint.unboundLvars}
-        :in $ % ${constraint.eventLvar} ${boundLvars}
-        :where ${constraint.where.join("\n")}]`,
-      db, rules, latestEventID, ...boundValues
-    );
-    if (results.length > 0) {
-      partialMatch.lastStep = "die";
-      partialMatch.deathDetails = {eventID: latestEventID, constraint};
-      return [partialMatch];
-    }
-  }
-
-  // create and return a new, advanced partial match for each way
+  // create a new, advanced partial match for each way
   // that this event can possibly advance the match
   const eventClauseIdx = pattern.eventClauses.findIndex(
     ec => !hasBinding(partialMatch, ec.eventLvar)
@@ -74,7 +57,32 @@ function tryAdvance(partialMatch, db, rules, latestEventID) {
       parent: partialMatch
     };
   });
+
+  // if there are no new partial matches resulting from this event,
+  // check whether this event matches an active unless-event constraint,
+  // and kill the partial match if it does
+  if (newPartialMatches.length === 0) {
+    for (const constraint of pattern.globalConstraints) {
+      if (!applicableConstraint(partialMatch, constraint)) continue;
+      const results = datascript.q(
+        `[:find ${constraint.unboundLvars}
+          :in $ % ${constraint.eventLvar} ${boundLvars}
+          :where ${constraint.where.join("\n")}]`,
+        db, rules, latestEventID, ...boundValues
+      );
+
+      if (results.length > 0) {
+        //console.log(results);
+        partialMatch.lastStep = "die";
+        partialMatch.deathDetails = {eventID: latestEventID, constraint};
+        return [partialMatch];
+      }
+    }
+  }
+
+  // return the updated partial match pool
   // could implement a greedy match behavior here by not returning the original partialMatch
+  // if there are any new partial matches to add
   partialMatch.lastStep = "pass";
   return [partialMatch].concat(newPartialMatches);
 }

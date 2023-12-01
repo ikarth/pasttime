@@ -68,6 +68,8 @@ constructor(scene, x, y, teamNumber, personality, history_recorder, playerID)
     this.history_recorder = history_recorder;
 
     this.pastEvents = [];
+    this.pastHits = [];
+    this.pastHitsTeam = [];
 
     this.max_rotation_speed = 4.0;
 
