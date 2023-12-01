@@ -62,9 +62,17 @@ class leagueGameScene extends Phaser.Scene
 
     update(time, delta) {
         //console.log(this.tournament);
-        if(this.tournament.winner == false) {
+        //console.log([this.tournament.winner, currentSceneId]);
+        if(this.tournament.winner === "ended") {
+            return;
+        }
+        if(this.tournament.winner === "no winner") {
             if(currentSceneId != null) {
+                if(currentSceneId == "winner") {
+                    currentSceneId = null;
+                }
                 if(winnerOfLastGame != null) {
+                    console.log("winnerOfLastGame", winnerOfLastGame);
                     if (winnerOfLastGame === "setup") {
                         this.gameScene = this.scene.get('sportsGameScene');
                         //this.gameScene.scene.restart();
@@ -73,6 +81,7 @@ class leagueGameScene extends Phaser.Scene
                         
                     } else {
                         this.gameScene.scene.stop();
+
                         let winner = 0;
                         let loser = 1;
                         if(winnerOfLastGame == 2) {
@@ -111,10 +120,26 @@ class leagueGameScene extends Phaser.Scene
                                 timeStep: 99999,
                                 winTeam: this.nextGame[winner].name,
                                 loseTeam: this.nextGame[loser].name,
+                                winnerWins: winCount,
+                                winnerLosses: this.nextGame[winner].losses,
+                                loserWins: this.nextGame[loser].wins,
+                                loserLosses: lossCount,
                                 tournamentRound: "" + currentTournamentRound,
                                 message: `The ${this.nextGame[0].name} win and the ${this.nextGame[1].name} lose.`,
                                 proximateCause: "the Director"
                             });
+
+                            if (lossCount >= 3) {
+                                historyRecorder.recordHistory({
+                                event: "sportsTeamEliminated",
+                                timeStep: 99999,
+                                winTeam: this.nextGame[winner].fancyName,
+                                loseTeam: this.nextGame[loser].fancyName,
+                                tournamentRound: "" + currentTournamentRound,
+                                message: `The ${this.nextGame[0].name} win and eliminate the ${this.nextGame[1].name} lose.`,
+                                proximateCause: "the Director"
+                            });
+                            }
 
                             winnerOfLastGame = null; 
 
@@ -126,13 +151,14 @@ class leagueGameScene extends Phaser.Scene
                 }
 
             } else {
+                console.log("starting next yournament round");
                 if(this.tournament.games.length > 0) {
                     // Start the next game...    
                     this.nextGame = this.tournament.games.pop();
                     if(this.nextGame[1].name == null) {
                         const winner = 0;
-                        const winCount = nextGame[winner].wins + 1;
-                        const swissCount = nextGame[winner].swissPoints + 1;
+                        const winCount = this.nextGame[winner].wins + 1;
+                        const swissCount = this.nextGame[winner].swissPoints + 1;
                         this.tournament.teams = updateByName(this.tournament.teams, this.nextGame[winner].name, "wins", winCount);
                         this.tournament.teams = updateByName(this.tournament.teams, this.nextGame[winner].name, "swissPoints", swissCount);
                         console.log(`the ${this.nextGame[winner].name} have a bye`);    
@@ -163,6 +189,8 @@ class leagueGameScene extends Phaser.Scene
             }
         } else {
             // Tournament is won
+            console.log("tournament is won");
+            console.log(this.tournament.winner);
             historyRecorder.recordHistory({
                                 event: "sportsWinTournament",
                                 timeStep: Infinity,
@@ -173,6 +201,7 @@ class leagueGameScene extends Phaser.Scene
                             });
 
             historyRecorder.reportHistory();
+            this.tournament.winner = "ended";
         }
 
 
@@ -285,6 +314,10 @@ class sportsGameScene extends Phaser.Scene
                 awayTeam: TeamTwo,
                 homeFancyName: this.sportsGame.teams[0].fancyName,
                 awayFancyName: this.sportsGame.teams[1].fancyName,
+                homeWins: this.sportsGame.teams[0].wins,
+                homeLosses: this.sportsGame.teams[0].losses,
+                awayWins: this.sportsGame.teams[1].wins,
+                awayLosses: this.sportsGame.teams[1].losses,
                 gameNum: this.sportsGame.gameNum,
                 tournamentRound: "" + currentTournamentRound,
                 message: `The game between ${TeamOne} and ${TeamTwo} begins.`,
@@ -590,6 +623,7 @@ class sportsGameScene extends Phaser.Scene
             this.currentPeriodStart = 0;
             this.penaltyTime = 0;
             this.bonusTime = 0;
+            this.lastComment = 0;
 
             this.inPlayPuckCount = 0;
 
@@ -887,13 +921,31 @@ class sportsGameScene extends Phaser.Scene
                 p.update(time, delta);
             });
 
-
             const currentTime = this.game.getFrame();
+            const timeSinceLastComment = currentTime - this.lastComment;
+            
 
             const TeamOne = this.sportsGame.teams[0].name;
             const TeamTwo = this.sportsGame.teams[1].name;
             const ScoreOne = this.sportsGame.score[TeamOne];
             const ScoreTwo = this.sportsGame.score[TeamTwo];
+
+            if(timeSinceLastComment > 200 * Math.random()) {
+                historyRecorder.recordHistory({
+                    currentGame: this.sportsGame.gameID,
+                    currentPeriod: this.currentPeriod,
+                    timeStep: currentTime,
+                    event: "sportsRandomComment",
+                    scoreAway: ScoreTwo,
+                    scoreHome: ScoreOne,
+                    homeTeam: TeamOne,
+                    awayTeam: TeamTwo,
+                    subjectID: "game_" + TeamOne + "_" + TeamTwo,
+                    message: `Random comment. Score is ${TeamOne} ${ScoreOne}, ${TeamTwo} ${ScoreTwo}`,
+                    proximateCause: "the Director"
+                });
+                this.lastComment = currentTime;
+            }
             
             if (this.currentPeriodStart + this.periodLength + this.penaltyTime + this.bonusTime < currentTime) {
                 // period ends
@@ -972,7 +1024,7 @@ class sportsGameScene extends Phaser.Scene
                     this.matter.world.off("collisionstart");
                     
                     this.scene.stop();
-                    currentSceneId = null;
+                    currentSceneId = "winner";
                 }
             }
             

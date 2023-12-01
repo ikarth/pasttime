@@ -30,7 +30,7 @@ function makeTournament(teams) {
 	}
 
 	tourny.teams = shuffle(tourny.teams);
-	tourny.winner = false;
+	tourny.winner = "no winner";
 	tourny.eliminated = [];
 	tourny.games = [];
 	tourny.round = 0;
@@ -39,20 +39,23 @@ function makeTournament(teams) {
 }
 
 function updateByName(arr, name, key, val) {
+	console.log([arr, name, key, val]);
 	const i = arr.findIndex(a => a.name == name);
 	arr[i][key] = val;
+	console.log(arr);
 	return arr;
 }
 
 function makeNextEliminationTournamentRound(tourny) {
 	const eliminate = tourny.teams.filter((t) => { return t.losses > 0;});
-	tourny.teams = tourny.teams.filter((t) => { return t.losses == 0;});
+	tourny.teams = tourny.teams.filter((t) => { return t.losses < 3;});
 	tourny.eliminated = tourny.eliminated.concat(eliminate);
+	console.log(eliminate);
 	tourny.games = [];
 	tourny.teams = shuffle(tourny.teams);
 	tourny.round = tourny.round + 1;
 
-	if(tourny.teams.length == 1) {
+	if(tourny.teams.length <= 1) {
 		tourny.winner = tourny.teams[0];
 		console.log(`${tourny.winner.name} wins the tournament.`);
 		return tourny;
@@ -102,13 +105,13 @@ function playTournamentGames(tourny) {
 	return tourny;
 }
 
-let test_tourny = makeTournament(teamList)
+// let test_tourny = makeTournament(teamList)
 
-while(test_tourny.winner == false) {
-	test_tourny = makeNextEliminationTournamentRound(test_tourny);
-	test_tourny = playTournamentGames(test_tourny);
-	console.log(test_tourny);
-}
+// while(test_tourny.winner == false) {
+// 	test_tourny = makeNextEliminationTournamentRound(test_tourny);
+// 	test_tourny = playTournamentGames(test_tourny);
+// 	console.log(test_tourny);
+// }
 
 
 

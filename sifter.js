@@ -590,6 +590,7 @@ const schema = {
   tag:    {":db/cardinality": ":db.cardinality/many"}
 };
 
+
 const allRawSiftingPatterns = `
 
 (pattern sportsBeginTournament
@@ -604,6 +605,12 @@ const allRawSiftingPatterns = `
     teamName: ?teamName
     ))
 
+(pattern sportsWinTournament
+  (event ?e1 where
+   event: sportsWinTournament
+   winTeam: ?winTeam
+   tournamentRound: ?round))
+
 (pattern sportsGameStart
   (event ?e1 where
     event: sportsGameStart
@@ -611,6 +618,10 @@ const allRawSiftingPatterns = `
     awayTeam: ?awayTeam
     homeFancyName: ?homeFancyName
     awayFancyName: ?awayFancyName
+    homeWins: ?homeWins
+    homeLosses: ?homeLosses
+    awayWins: ?awayWins
+    awayLosses: ?awayLosses
     tournamentRound: ?tournamentRound
     gameNum: ?gameNum
     ))
@@ -645,7 +656,16 @@ const allRawSiftingPatterns = `
    event: sportsGameEndWin
    winTeam: ?winTeam
    loseTeam: ?loseTeam
+   winnerWins: ?winnerWins
+   winnerLosses: ?winnerLosses
+   loserWins: ?loserWins
+   loserLosses: ?loserLosses
    tournamentRound: ?tournamentRound))
+
+(pattern sportsTeamEliminated
+(event ?e1 where
+   event: sportsTeamEliminated
+   loseTeam: ?loseTeam))
 
 (pattern sportsTeamStartingLineup
 (event ?e1 where
@@ -661,6 +681,7 @@ const allRawSiftingPatterns = `
 (pattern sportsGamePeriodStart
  (event ?e1 where
    event: sportsGamePeriodStart
+   currentPeriod: ?currentPeriod
     homeTeam: ?homeTeam
     awayTeam: ?awayTeam
     scoreHome: ?homeScore
@@ -670,6 +691,7 @@ const allRawSiftingPatterns = `
 (pattern sportsGamePeriodEnd
 (event ?e1 where
    event: sportsGamePeriodEnd
+   currentPeriod: ?currentPeriod
    homeTeam: ?homeTeam
     awayTeam: ?awayTeam
     scoreHome: ?homeScore
@@ -678,6 +700,7 @@ const allRawSiftingPatterns = `
 (pattern sportsGamePeriodOvertime
 (event ?e1 where
    event: sportsGamePeriodOvertime
+   currentPeriod: ?currentPeriod
    homeTeam: ?homeTeam
     awayTeam: ?awayTeam
     scoreHome: ?homeScore
@@ -712,6 +735,15 @@ const allRawSiftingPatterns = `
     (not= ?team1 ?team2)
     (not= ?team2 puck))
     )
+
+(pattern randomCommentary
+  (event ?e1 where
+    event: sportsRandomCommentary
+    scoreAway: ?score2
+    scoreHome: ?score1
+    homeTeam: ?team1
+    awayTeam: ?team2
+))
 
  (pattern passThePuck
   (event ?e1 where

@@ -54,11 +54,19 @@ function sportsGameBeginTournamentFunc(e) {
 function sportsTeamJoinTournamentFunc(e) {
 	const binds = extractBindingsToGrammar(e);
 	binds.origin = '<p>#comment#</p>';
-	binds.comment = ["We've got the #teamName#.", "The #teamName# are here.", "Look forward to seeing the #teamName# on the ice.", "The #teamName# are ready to take on their traditional rivals.", "Of course we've got the #teamName#.", "The #teamName# have been strong this year.", "The #teamName# made it in to the playoffs.", "The #teamName# are considered to be contenders.", "The #teamName# are here.", "The #teamName# are ready to go.", "We'll be broadcasting the next game for the #teamName#,"];
+	binds.comment = ["We've got the #teamName#.", "The #teamName# are here.", "Look forward to seeing the #teamName# on the ice.", "The #teamName# are ready to take on their traditional rivals.", "Of course we've got the #teamName#.", "The #teamName# have been strong this year.", "The #teamName# made it in to the playoffs.", "The #teamName# are considered to be contenders.", "The #teamName# are here.", "The #teamName# are ready to go.", "We'll be broadcasting the next game for the #teamName#, so stay tuned."];
 	binds.headline = "The Hlockey Playoffs";
 	//binds.gameNum = "" + globalGameCount; 
 	console.log(binds);
 	return tracery.createGrammar(binds);
+}
+
+function sportsWinTournament(e) {
+const binds = extractBindingsToGrammar(e);
+	binds.origin = '<h2>#comment#</h2>';
+	binds.comment = ["#winTeam# wins the Hlockey Tournament!"];
+	binds.headline = "The Hlockey Playoffs";
+	return tracery.createGrammar(binds);	
 }
 
 function sportsGameStartFunc(e) {
@@ -69,10 +77,21 @@ function sportsGameStartFunc(e) {
 	binds.punct = [".", "!", "...", ".", ".", "!", "."];
 	binds.remark = ['Let\'s go#punct#', "Let's see how these teams do.", "It's a beautiful day for Hlockey#punct#", "", "The teams are lining up#punct#", "That was a beautiful rendition of the national anthem.", "Game on#punct#", "Here we go#punct#", "It's time for some Hlockey#punct#"];
 	binds.tour = ['This is round #tournamentRound# in the playoffs.', 'Tournament round #tournamentRound#.', 'Round #tournamentRound# of the tournament.', 'Round #tournamentRound# of the playoffs.'];
-	binds.comment = ["Welcome to #homeTeam# vs. #awayTeam#. #tour# #remark#"];
+	binds.comment = ["Welcome to #homeTeam# vs. #awayTeam#. #tour# #standings# #remark#"];
 	binds.headline = "Game #gameNum#: #homeFancyName# vs. #awayFancyName#";
+	binds.standings = "#homeStandings# #awayStandings#";
+	binds.homeStandings = "The #homeTeam# currently have #homeWins# wins and #homeLosses# losses. #homeDanger#";
+	binds.awayStandings = "The #awayTeam# currently have #awayWins# wins and #awayLosses# losses. #awayDanger#";
+	binds.homeDanger = "";
+	binds.awayDanger = "";
+	homeLoss = parseInt(binds.homeLosses, 10);
+	awayLoss = parseInt(binds.awayLosses, 10);
+	dangerPhrase = [["They are undefeated.", "That's a solid position.", "They are in good shape.", "They have a big safety net."], ["They don't have much room for error, but they can afford one more loss.", "Overall, they're fine."], ["They can't afford to lose any more."]];
+	binds.homeDanger = dangerPhrase[homeLoss];
+	binds.awayDanger = dangerPhrase[awayLoss];
+
 	//binds.gameNum = "" + globalGameCount; 
-	console.log(binds);
+	console.log("sportsGameStart", binds);
 	return tracery.createGrammar(binds);
 }
 // (pattern sportsGameStart
@@ -132,7 +151,14 @@ function sportsGameEndFunc(e) {
 function sportsGameEndWinFunc(e) {
 	const binds = extractBindingsToGrammar(e);
 	binds.origin = '<p>#comment#</p>';
-	binds.comment = ["The #winTeam# will be advancing to the next round of the playoffs."];
+	binds.comment = ["The #winTeam# are now #winnerWins#-#winnerLosses#. The #loseTeam# are #loserWins#-#loserLosses#."];
+	return tracery.createGrammar(binds);
+}
+
+function sportsTeamEliminatedFunc(e) {
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<h3><strong><code>#comment#<code><strong></h3>';
+	binds.comment = ["The #loseTeam# are eliminated from the playoffs."];
 	return tracery.createGrammar(binds);
 }
 
@@ -173,7 +199,7 @@ function sportsTeamStartingLineupFunc(e) {
 function sportsGamePeriodEndFunc(e) {
 	const binds = extractBindingsToGrammar(e);
 	binds.origin = '<p>#comment#</p>';
-	binds.comment = ["And that's the end of this period; the score is #homeTeam# #homeScore#, #awayTeam# #awayScore#."];
+	binds.comment = ["And that's the end of period #currentPeriod#; the score is #homeTeam# #homeScore#, #awayTeam# #awayScore#."];
 	return tracery.createGrammar(binds);
 }
 // (pattern sportsGamePeriodEnd
@@ -187,7 +213,7 @@ function sportsGamePeriodEndFunc(e) {
 function sportsGamePeriodOvertimeFunc(e) {
 	const binds = extractBindingsToGrammar(e);
 	binds.origin = '<p>#comment#</p>';
-	binds.comment = ["We're going into overtime. The score is tied at #homeTeam# #homeScore#, #awayTeam# #awayScore#"];
+	binds.comment = ["We're going into overtime. The multiball rule is in effect. The score is tied at #homeTeam# #homeScore#, #awayTeam# #awayScore#"];
 	return tracery.createGrammar(binds);
 }
 // (pattern sportsGamePeriodOvertime
@@ -277,8 +303,8 @@ function passThePuckFunc(e) {
 	if (Math.random() < 0.4) {
 		//binds.origin = "";
 	}
-	if (Math.random() < 0.7) {
-		//return randomCommentary(e);
+	if (Math.random() < 0.3) {
+		return randomCommentary(e);
 	}
 	binds.passes = ["passes", "executes a clean pass", "cycles", "does the give-and-go", "exchanges", "passes", "goes tape to tape", "makes a filthy pass", "makes a pass", "makes a clean pass"];
 	binds.comment = [
@@ -368,10 +394,18 @@ function stealThePuckFunc(e) {
 function scoreGoalAssistFunc(e) {
 	const binds = extractBindingsToGrammar(e);
 	binds.origin = '<p>#comment#</p>';
-	binds.comment = [`Assist by #assistName#, passing to #playerName#.`,
-		`#assistName# passes to #playerName#, setting up the score.`];
+	binds.comment = [`Assist by #actor1#, passing to #actor2#.`,
+		`#actor1# passed to #actor2#, setting up the score.`];
 	return tracery.createGrammar(binds);
 }
+
+ // (pattern scoreGoalAssist
+ //  (event ?e1 where
+ //    event: sportsGoalAssist,
+ //    targetPlayer: ?actor2
+ //    sourcePlayer: ?actor1
+ //    sourceTeam: ?team1
+ //    targetTeam: ?team2))
 
 // (pattern scoreGoalAssist
 //   (event ?e1 where
@@ -415,7 +449,10 @@ const commentaryFunctions = {
 	"sportsTeamStartingLineup": sportsTeamStartingLineupFunc,
 	"sportsBeginTournament": sportsGameBeginTournamentFunc,
 	"sportsTeamJoinTournament": sportsTeamJoinTournamentFunc,
-	"sportsGameEndWin": sportsGameEndWinFunc
+	"sportsGameEndWin": sportsGameEndWinFunc,
+	"randomCommentary": randomCommentary,
+	"sportsWinTournament": sportsWinTournament,
+	"sportsTeamEliminated": sportsTeamEliminatedFunc
 }
 
 
@@ -507,17 +544,17 @@ class Metatron {
             report.push(e.message);
             //transcribeBookPassage(e.message);
         });
-        console.log(report);
-        console.log(this.history);
-        console.log(groupBy(m => m.pattern.name, this.recordedAnnouncements));
-        console.log(this.recordedAnnouncements);
+        //console.log(report);
+        //console.log(this.history);
+        //console.log(groupBy(m => m.pattern.name, this.recordedAnnouncements));
+        //console.log(this.recordedAnnouncements);
 
         this.recordedAnnouncements.forEach(m => {
         	const commentary = commentateTranscript(m);
-        	console.log(commentary);
-        	console.log(m);
+        	//console.log(commentary);
+        	//console.log(m);
         	console.log(m.pattern.name);
-        	console.log(m.pattern);
+        	//console.log(m.pattern);
         	if (typeof(commentary) == 'string') {
         		transcribeBookPassage(commentary);
         	} else {
