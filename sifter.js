@@ -593,6 +593,21 @@ const schema = {
 
 const allRawSiftingPatterns = `
 
+(pattern sportsTeamRemains
+(event ?e1 where
+event: sportsTeamRemains
+team: ?team
+wins: ?wins
+losses: ?losses
+tournamentRound: ?round
+))
+
+(pattern sportsGameEndBye
+(event ?e1 where
+event: sportsGameEndBye
+byeTeam: ?team
+tournamentRound: ?round))                                
+
 (pattern sportsBeginTournament
   (event ?e1 where
     event: sportsBeginTournament

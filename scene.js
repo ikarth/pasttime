@@ -224,6 +224,22 @@ class leagueGameScene extends Phaser.Scene
                 } else {
                     // Start the next round...
                     this.tournament = makeNextEliminationTournamentRound(this.tournament);
+                    console.log(this.tournament);
+                    this.tournament.teams.forEach(t => {
+                        console.log(t);
+                        if (t.fancyName) {
+                        historyRecorder.recordHistory({
+                                event: "sportsTeamRemains",
+                                timeStep: 0,
+                                team: t.fancyName,
+                                wins: t.wins,
+                                losses: t.losses,
+                                tournamentRound: "" + currentTournamentRound,
+                                message: `The ${t.name} are still in the tournament.`,
+                                proximateCause: "the Director"
+                            });
+                    }
+                    });
                     
                 }
                 
@@ -684,7 +700,7 @@ class sportsGameScene extends Phaser.Scene
             // debugging viz
             //this.viz_graphic = this.add.graphics({ lineStyle: { color: 0x00ffff } });
 
-            this.periodLength = 600;
+            this.periodLength = 900;
             this.periodCount = 3;
             this.currentPeriod = 0;
             this.currentPeriodStart = 0;

@@ -193,6 +193,33 @@ function sportsPlayerCollisionFunc(e) {
 	return tracery.createGrammar(binds);
 }
 
+function sportsTeamRemainsFunc(e) {
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p><code>#comment#</code></p>';
+	binds.comment = ["The #team# are still in the tournament, with #wins# wins and #losses# losses."];
+	return tracery.createGrammar(binds);
+}
+// (pattern sportsTeamRemains
+// (event ?e1 where
+// event: sportsTeamRemains
+// team: ?team
+// wins: ?wins
+// losses: ?losses
+// tournamentRound: ?round
+// ))
+
+function sportsGameEndByeFunc(e) {
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p><code>#comment#</code></p>';
+	binds.comment = ["The #team# have a bye for round #round#."];
+	return tracery.createGrammar(binds);
+}
+// (pattern sportsGameEndBye
+// (event ?e1 where
+// event: sportsGameEndBye
+// byeTeam: ?team
+// tournamentRound: ?round))    
+
 function arenaOutOfBoundsFunc(e) {
 	const binds = extractBindingsToGrammar(e);
 	binds.origin = '<p style=\"color:grey\">#comment#</p>';
@@ -508,7 +535,9 @@ const commentaryFunctions = {
 	"sportsTeamEliminated": sportsTeamEliminatedFunc,
 	"sportsPlayerCollision": sportsPlayerCollisionFunc,
 	"arenaInOfBounds": arenaInOfBoundsFunc,
-	"arenaOutOfBounds": arenaOutOfBoundsFunc
+	"arenaOutOfBounds": arenaOutOfBoundsFunc,
+	"sportsGameEndBye":sportsGameEndByeFunc,
+	"sportsTeamRemains": sportsTeamRemainsFunc
 }
 
 
