@@ -33,6 +33,7 @@ function makeTournament(teams) {
 	tourny.winner = false;
 	tourny.eliminated = [];
 	tourny.games = [];
+	tourny.round = 0;
 
 	return tourny;
 }
@@ -49,6 +50,7 @@ function makeNextEliminationTournamentRound(tourny) {
 	tourny.eliminated = tourny.eliminated.concat(eliminate);
 	tourny.games = [];
 	tourny.teams = shuffle(tourny.teams);
+	tourny.round = tourny.round + 1;
 
 	if(tourny.teams.length == 1) {
 		tourny.winner = tourny.teams[0];

@@ -592,11 +592,26 @@ const schema = {
 
 const allRawSiftingPatterns = `
 
+(pattern sportsBeginTournament
+  (event ?e1 where
+    event: sportsBeginTournament
+    tournamentRound: ?tournamentRound
+    ))
+
+(pattern sportsTeamJoinTournament
+  (event ?e1 where
+    event: sportsTeamJoinTournament
+    teamName: ?teamName
+    ))
+
 (pattern sportsGameStart
   (event ?e1 where
     event: sportsGameStart
     homeTeam: ?homeTeam
     awayTeam: ?awayTeam
+    homeFancyName: ?homeFancyName
+    awayFancyName: ?awayFancyName
+    tournamentRound: ?tournamentRound
     gameNum: ?gameNum
     ))
 
@@ -609,7 +624,6 @@ const allRawSiftingPatterns = `
     scoreAway: ?awayScore
     ))
 
-
 (pattern sportsGameEnd
  (event ?e1 where
    event: sportsGameEnd
@@ -617,6 +631,31 @@ const allRawSiftingPatterns = `
    awayTeam: ?awayTeam
    scoreHome: ?homeScore
    scoreAway: ?awayScore
+    ))
+
+(pattern sportsGameEndTie
+ (event ?e1 where
+   event: sportsGameEndTie
+   homeTeam: ?homeTeam
+   awayTeam: ?awayTeam
+   tournamentRound: ?tournamentRound))
+
+(pattern sportsGameEndWin
+ (event ?e1 where
+   event: sportsGameEndWin
+   winTeam: ?winTeam
+   loseTeam: ?loseTeam
+   tournamentRound: ?tournamentRound))
+
+(pattern sportsTeamStartingLineup
+(event ?e1 where
+   event: sportsTeamStartingLineup
+   team: ?team
+   player0: ?player0
+   player1: ?player1
+   player2: ?player2
+   player3: ?player3
+   player4: ?player4
     ))
 
 (pattern sportsGamePeriodStart
@@ -645,57 +684,75 @@ const allRawSiftingPatterns = `
     scoreAway: ?awayScore))
 
 (pattern scoreGoal
-  (event ?e1 where
-    event: sportsPlayerHitsPuck,
-    target: ?puck
-    actor: ?actor
-    actorTeam: ?team1
-    )
+  ;(event ?e1 where
+  ;  event: sportsPlayerHitsPuck,
+  ;  target: ?puck
+  ;  actor: ?actor
+  ;  actorTeam: ?team1
+  ;  )
   (event ?e2 where
     event: sportsGoalScored,
     target: ?puck,
     actor: ?actor
     scoringTeam: ?team1
+    actorTeam: ?team1
     )
-  (unless-event ?eMid between ?e1 ?e2 where
-    target: ?puck
-    event: sportsPlayerHitsPuck)
-  )
+  ; (unless-event ?eMid between ?e1 ?e2 where
+  ;   target: ?puck
+  ;   event: sportsPlayerHitsPuck)
+    )
 
-(pattern scoreGoalOtherTeam
-  (event ?e1 where
-    event: sportsPlayerHitsPuck,
-    target: ?puck
-    actor: ?actor
-    actorTeam: ?team2)
+(pattern scoreAnyGoal
   (event ?e2 where
     event: sportsGoalScored
     target: ?puck
     actor: ?actor
     scoringTeam: ?team1
-    (not= ?team1 ?team2))
-  (unless-event ?eMid between ?e1 ?e2 where
+    actorTeam: puck
+    (not= ?team2 ?team1)))
+
+(pattern scoreGoalOtherTeam
+  ;(event ?e1 where
+  ;  event: sportsPlayerHitsPuck,
+  ;  target: ?puck
+  ;  actor: ?actor
+  ;  actorTeam: ?team2)
+  (event ?e2 where
+    event: sportsGoalScored
     target: ?puck
-    event: sportsPlayerHitsPuck)
+    actor: ?actor
+    actorTeam: ?team2
+    scoringTeam: ?team1
+    (not= ?team1 ?team2)
+    (not= ?team2 puck))
+  ;(unless-event ?eMid between ?e1 ?e2 where
+  ;  target: ?puck
+  ;  event: sportsPlayerHitsPuck)
     )
 
  (pattern passThePuck
   (event ?e1 where
     event: sportsPlayerHitsPuck,
     target: ?puck
+    timeStep: ?hittime
     actor: ?actor1
     actorTeam: ?team1)
   (event ?e2 where
     event: sportsPlayerHitsPuck,
     target: ?puck
+    timeStep: ?goaltime
     actorTeam: ?team1
-    actor: ?actor2)
+    actor: ?actor2
+    (not= ?actor1 ?actor2))
+  ;(unless-event ?eMid between ?e1 ?e2 where
+  ;  target: ?puck
+  ;  event: arenaPuckResetToCenter)   
   (unless-event ?eMid between ?e1 ?e2 where
     target: ?puck
-    event: arenaPuckResetToCenter)
-  ;;(unless-event ?eMid between ?e1 ?e2 where
-  ;;  target: ?puck
-  ;;  event: sportsPlayerHitsPuck)
+    timeStep: ?midtime
+    event: sportsPlayerHitsPuck
+    (< ?hittime ?midtime ?goaltime)
+    )
     )
 
  (pattern stealThePuck
@@ -709,14 +766,14 @@ const allRawSiftingPatterns = `
     target: ?puck
     actorTeam: ?team2
     actor: ?actor2
-    (not= ?team1 ?team2))
+    (not= ?team1 ?team2)
+    (not= ?actor1 ?actor2))
   (unless-event ?eMid between ?e1 ?e2 where
     target: ?puck
     event: arenaPuckResetToCenter)
-  ;;(unless-event ?eMid between ?e1 ?e2 where
-  ;;  target: ?puck
-  ;;  event: sportsPlayerHitsPuck)
-    )
+  (unless-event ?eMid between ?e1 ?e2 where
+    target: ?puck
+    event: sportsPlayerHitsPuck))
 
 (pattern scoreGoalAssist
   (event ?e1 where

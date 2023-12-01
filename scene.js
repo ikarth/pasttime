@@ -1,5 +1,6 @@
 let currentSceneId = null;
 let winnerOfLastGame = null;
+let currentTournamentRound = 0;
 
 class leagueGameScene extends Phaser.Scene 
 {
@@ -25,6 +26,25 @@ class leagueGameScene extends Phaser.Scene
         this.gameScene = this.scene.get('sportsGameScene');
             
         this.tournament = makeTournament(teamList);
+
+        historyRecorder.recordHistory({
+                                event: "sportsBeginTournament",
+                                timeStep: 0,
+                                tournamentRound: "" + currentTournamentRound,
+                                message: `The Hlockey tournament begins!`,
+                                proximateCause: "the Director"
+                            });
+        for(let t of this.tournament.teams) {
+            historyRecorder.recordHistory({
+                                event: "sportsTeamJoinTournament",
+                                timeStep: -2,
+                                teamName: t.fancyName,
+                                message: `The ${t.name} are in the tournament!`,
+                                proximateCause: "the Director"
+                            });
+        }
+        historyRecorder.reportHistory();
+        historyRecorder = new Metatron();
 
         this.input.once('pointerdown', function ()
         {
@@ -64,7 +84,16 @@ class leagueGameScene extends Phaser.Scene
                             const swissCount1 = this.nextGame[1].swissPoints + 0.5;
                             this.tournament.teams = updateByName(this.tournament.teams, this.nextGame[0].name, "swissPoints", swissCount0);
                             this.tournament.teams = updateByName(this.tournament.teams, this.nextGame[1].name, "swissPoints", swissCount1);
-                            console.log(`the ${this.nextGame[winner].name} drew a tie with the ${this.nextGame[loser].name}`);
+                            console.log(`the ${this.nextGame[0].name} drew a tie with the ${this.nextGame[1].name}`);
+                            historyRecorder.recordHistory({
+                                event: "sportsGameEndTie",
+                                timeStep: 99999,
+                                homeTeam: this.nextGame[0].name,
+                                awayTeam: this.nextGame[1].name,
+                                tournamentRound: "" + currentTournamentRound,
+                                message: `Tie game between ${this.nextGame[0].name} and ${this.nextGame[1].name}.`,
+                                proximateCause: "the Director"
+                            });
                             winnerOfLastGame = null; 
                         } else {
                             const winCount = this.nextGame[winner].wins + 1;
@@ -77,7 +106,18 @@ class leagueGameScene extends Phaser.Scene
                             const lossCount = this.nextGame[loser].losses + 1;
                             this.tournament.teams = updateByName(this.tournament.teams, this.nextGame[loser].name, "losses", lossCount);   
                             console.log(`the ${this.nextGame[winner].name} beat the ${this.nextGame[loser].name}`);
+                            historyRecorder.recordHistory({
+                                event: "sportsGameEndWin",
+                                timeStep: 99999,
+                                winTeam: this.nextGame[winner].name,
+                                loseTeam: this.nextGame[loser].name,
+                                tournamentRound: "" + currentTournamentRound,
+                                message: `The ${this.nextGame[0].name} win and the ${this.nextGame[1].name} lose.`,
+                                proximateCause: "the Director"
+                            });
+
                             winnerOfLastGame = null; 
+
 
                         }
                         
@@ -96,6 +136,14 @@ class leagueGameScene extends Phaser.Scene
                         this.tournament.teams = updateByName(this.tournament.teams, this.nextGame[winner].name, "wins", winCount);
                         this.tournament.teams = updateByName(this.tournament.teams, this.nextGame[winner].name, "swissPoints", swissCount);
                         console.log(`the ${this.nextGame[winner].name} have a bye`);    
+                        historyRecorder.recordHistory({
+                                event: "sportsGameEndBye",
+                                timeStep: 0,
+                                byeTeam: this.nextGame[winner].name,
+                                tournamentRound: "" + currentTournamentRound,
+                                message: `The ${this.nextGame[winner].name} have a bye this round.`,
+                                proximateCause: "the Director"
+                            });
                     } else {
                         this.scene.launch('sportsGameScene');
                         let t_gameScene = this.scene.get('sportsGameScene');
@@ -104,16 +152,27 @@ class leagueGameScene extends Phaser.Scene
                         this.gameScene.scene.pause();
                         winnerOfLastGame = "setup";
                         currentSceneId = globalGameCount;
-
+                        currentTournamentRound = this.tournament.round;
                     }
                 } else {
                     // Start the next round...
                     this.tournament = makeNextEliminationTournamentRound(this.tournament);
+                    
                 }
                 
             }
         } else {
             // Tournament is won
+            historyRecorder.recordHistory({
+                                event: "sportsWinTournament",
+                                timeStep: Infinity,
+                                winTeam: this.tournament.winner.name,
+                                tournamentRound: "" + currentTournamentRound,
+                                message: `The ${this.nextGame[0].name} win the tournament!`,
+                                proximateCause: "the Director"
+                            });
+
+            historyRecorder.reportHistory();
         }
 
 
@@ -168,8 +227,7 @@ class sportsGameScene extends Phaser.Scene
 
         initSportsGame(teams) {
             console.log("initSportsGame");
-            historyRecorder = new Metatron();
-
+            
             this.currentPeriod = 0;
             this.currentPeriodStart = 0;
             this.penaltyTime = 0;
@@ -225,11 +283,33 @@ class sportsGameScene extends Phaser.Scene
                 event: "sportsGameStart",
                 homeTeam: TeamOne,
                 awayTeam: TeamTwo,
+                homeFancyName: this.sportsGame.teams[0].fancyName,
+                awayFancyName: this.sportsGame.teams[1].fancyName,
                 gameNum: this.sportsGame.gameNum,
+                tournamentRound: "" + currentTournamentRound,
                 message: `The game between ${TeamOne} and ${TeamTwo} begins.`,
                 proximateCause: "the Director"
             });
             this.resetFaceoff();
+
+            for(let rosterLineupTeam of [this.teamOne, this.teamTwo]) {
+                console.log(rosterLineupTeam);
+                historyRecorder.recordHistory({
+                        currentGame: this.sportsGame.gameID,
+                        currentPeriod: this.currentPeriod,
+                        timeStep: 1,
+                        event: "sportsTeamStartingLineup",
+                        player0: rosterLineupTeam.roster[0].name,
+                        player1: rosterLineupTeam.roster[1].name,
+                        player2: rosterLineupTeam.roster[2].name,
+                        player3: rosterLineupTeam.roster[3].name,
+                        player4: rosterLineupTeam.roster[4].name,
+                        team: rosterLineupTeam.name,
+                        message: `The starting lineup for ${rosterLineupTeam.name} is ${rosterLineupTeam.roster[0].name}, ${rosterLineupTeam.roster[1].name}, ${rosterLineupTeam.roster[2].name}, ${rosterLineupTeam.roster[3].name}, ${rosterLineupTeam.roster[4].name}!`,
+                        proximateCause: "the Director",
+                        tags: ["play-event", "puck-event", "common"]
+                        });
+            }
 
             this.matter.world.on("collisionstart", (event, bodyA, bodyB) => {
 
@@ -255,6 +335,8 @@ class sportsGameScene extends Phaser.Scene
 
                     const PlayerA_ID = the_player.gameObject.playerID;
                     const PlayerB_ID = the_puck.gameObject.playerID;
+                    const PlayerA_ID_Team =  this.sportsGame.teams[the_player.gameObject.team].name;
+                    console.log(PlayerA_ID_Team);
 
                     const angle_to_goal_vals = this.angleToGoal(the_player.gameObject);
                     const angle_to_goal = angle_to_goal_vals[0];
@@ -268,6 +350,7 @@ class sportsGameScene extends Phaser.Scene
                     //console.log(the_puck);
 
                     the_puck.gameObject.lastMoveCause = PlayerA_ID;
+                    the_puck.gameObject.lastMoveTeam = PlayerA_ID_Team;
                     the_puck.gameObject.lastMoveTime = this.game.getFrame();
                     the_puck.gameObject.forceToApply = [thrust, angle_to_goal];
 
@@ -283,6 +366,7 @@ class sportsGameScene extends Phaser.Scene
                         targetTeam: the_puck.gameObject.teamName,
                         message: `${PlayerA_ID} hits the ${PlayerB_ID}!`,
                         proximateCause: PlayerA_ID,
+                        proximateCauseTeam: the_player.gameObject.teamName,
                         tags: ["play-event", "puck-event", "common"]
                     });
                 }
@@ -294,13 +378,13 @@ class sportsGameScene extends Phaser.Scene
                     //console.log(bodyA);
                     //console.log(bodyB);
 
-                    // historyRecorder.recordHistory({
-                    //     event: "sportsPlayerCollision",
-                    //     subjectID: PlayerA_ID,
-                    //     objectID: PlayerB_ID,
-                    //     message: `${PlayerA_ID} collides with ${PlayerB_ID}!`,
-                    //     proximateCause: PlayerA_ID
-                    // });
+                    historyRecorder.recordHistory({
+                         event: "sportsPlayerCollision",
+                         subjectID: PlayerA_ID,
+                         objectID: PlayerB_ID,
+                         message: `${PlayerA_ID} collides with ${PlayerB_ID}!`,
+                         proximateCause: PlayerA_ID
+                    });
 
                     // bounce blame
                     bodyA.lastMoveCause = PlayerB_ID;
@@ -322,6 +406,7 @@ class sportsGameScene extends Phaser.Scene
                     //console.log(bodyB);
                     const teamThatScored = the_goal.gameObject.teamGoal;
                     let lastHit = the_puck.gameObject.lastMoveCause;
+                    let lastHitTeam = the_puck.gameObject.lastMoveTeam;
                     const teamThatScoredName = this.sportsGame.teams[teamThatScored].name;
                     
                     // increase score
@@ -335,7 +420,10 @@ class sportsGameScene extends Phaser.Scene
                     if (lastHit == undefined) {
                        lastHit = "no one"; 
                     }
-                    
+                    if (lastHitTeam == undefined) {
+                        lastHitTeam = "puck";
+                    }
+                    console.log(lastHit);
                     // log event
                     historyRecorder.recordHistory({
                         currentGame: this.sportsGame.gameID,
@@ -344,6 +432,7 @@ class sportsGameScene extends Phaser.Scene
                         event: "sportsGoalScored",
                         target: the_puck.gameObject.playerID,
                         actor: lastHit,
+                        actorTeam: lastHitTeam,
                         scoreAway: ScoreTwo,
                         scoreHome: ScoreOne,
                         homeTeam: TeamOne,
@@ -606,6 +695,7 @@ class sportsGameScene extends Phaser.Scene
         angleToGoal(sportPlayer) {
             let target_point_x = (fieldWidth / 2);
             let hitColor = 0xffffff;
+            //console.log(sportPlayer);
             if (sportPlayer.team == 1) {
                 target_point_x = this.GoalBackWidth + 20;
                 hitColor = 0xff0055;
@@ -613,6 +703,10 @@ class sportsGameScene extends Phaser.Scene
             if (sportPlayer.team == 2) {
                 target_point_x = fieldWidth - (this.GoalBackWidth + 20);
                 hitColor = 0x5500ff;
+            }
+            if (sportPlayer.team == 0) {
+                target_point_x = fieldWidth - (this.GoalBackWidth + 20);
+                hitColor = 0x55ff00;
             }
             let target_point_y = (fieldHeight / 2);
             if (this.puck.x < (this.GoalBackWidth + 16) || this.puck.x > (fieldWidth - (this.GoalBackWidth + 16))) {
@@ -781,6 +875,7 @@ class sportsGameScene extends Phaser.Scene
                     if(ScoreOne == ScoreTwo) {
                         winnerOfLastGame = 0;    
                     }
+                    historyRecorder = new Metatron();
 
                     this.matter.world.off("collisionstart");
                     
