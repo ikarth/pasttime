@@ -768,6 +768,29 @@ const allRawSiftingPatterns = `
     sourcePlayer: ?actor1
     sourceTeam: ?team1
     targetTeam: ?team2))
+
+    (pattern sportsPlayerCollision
+    (event ?e1 where
+    event: sportsPlayerCollision
+    hitDamage: ?hitDamage,
+    attacker: ?attacker,
+    defender: ?defender
+    ))
+
+    (pattern arenaOutOfBounds
+    (event ?e1 where
+    event: arenaOutOfBounds
+    place: ?place
+    actor: ?actor
+    actorTeam: ?actorTeam))
+
+    (pattern arenaInOfBounds
+    (event ?e1 where
+      event: arenaInOfBounds
+      place: ?place
+      actor: ?actor
+      actorTeam: ?actorTeam
+    ))
   `;
 
 

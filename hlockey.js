@@ -167,6 +167,10 @@ preUpdate (time, delta)
     this.rotation += 0.01;
 }
 
+seekEnemies(enemyList) {
+    
+}
+
 update(time, delta)
 {
 
@@ -191,6 +195,10 @@ update(time, delta)
             const thrust = 0.1;
             this.scene.matter.applyForceFromAngle(this.pBody, thrust, angle);
             this.lastMoveCause = this.playerID;
+        }
+
+        if (this.personality.fuse < Math.random()) {
+
         }
     }
 

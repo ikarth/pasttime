@@ -287,8 +287,8 @@ function createRandomPlayer() {
     }
 }
 
-const teamFancyNameList = ["Akron Aliens 👽", "Saskatoon Steelmen 🦾", "Fremont Foxes🦊", "Nacogdoches No 🙅‍♀️", "Eureka Euphemisms 🙊", "Toronto Teeth 🦷", "West Lafayette Wildebeests 🦬", "Kalamazoo Koalas 🐨", "Milwaukee Marxists 🥸", "Hadleyburg Haze 😶‍🌫️", "Circleville Pumpkins 🎃", "Grand Rapids Gravediggers 🪦", "Kansas City Kites 🪁", "Shreveport Hlockey Players 🤕", "Burnaby Bankmen 🤑", "Williston Warlocks 🧙‍♂️"];
-const teamNameList = ["Akron Aliens", "Saskatoon Steelmen", "Fremont Foxes", "Nacogdoches No", "Eureka Euphemisms", "Toronto Teeth", "West Lafayette Wildebeests", "Kalamazoo Koalas", "Milwaukee Marxists", "Hadleyburg Haze", "Circleville Pumpkins", "Grand Rapids Gravediggers", "Kansas City Kites", "Shreveport Hlockey Players", "Burnaby Bankmen", "Williston Warlocks"];
+const teamFancyNameList = ["Akron Aliens 👽", "Saskatoon Steelmen 🦾", "Fremont Foxes🦊", "Nacogdoches No 🙅‍♀️", "Eureka Euphemisms 🙊", "Toronto Teeth 🦷", "West Lafayette Wildebeests 🦬", "Kalamazoo Koalas 🐨", "Milwaukee Marxists 🥸", "Hadleyburg Haze 😶‍🌫️", "Circleville Pumpkins 🎃", "Grand Rapids Gravediggers 🪦", "Kansas City Kites 🪁", "Shreveport Hlockey Players 🤕", "Burnaby Bankmen 🤑", "Williston Warlocks 🧙‍♂️", "Provo Pirates 🏴‍☠️", "Hudson Bay Harlequins 🃏", "Fayetteville Four O'Clocks 🕓", "Schenectady Skeletons 🩻", "Thunder Bay Thunder ⛈️"];
+const teamNameList = ["Akron Aliens", "Saskatoon Steelmen", "Fremont Foxes", "Nacogdoches No", "Eureka Euphemisms", "Toronto Teeth", "West Lafayette Wildebeests", "Kalamazoo Koalas", "Milwaukee Marxists", "Hadleyburg Haze", "Circleville Pumpkins", "Grand Rapids Gravediggers", "Kansas City Kites", "Shreveport Hlockey Players", "Burnaby Bankmen", "Williston Warlocks", "Provo Pirates", "Hudson Bay Harlequins", "Fayetteville Four O'Clocks", "Schenectady Skeletons", "Thunder Bay Thunder"];
 
 function CreateTeam(teamName, fancyName) {
 	const playerList = [];

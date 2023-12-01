@@ -2,6 +2,47 @@ let currentSceneId = null;
 let winnerOfLastGame = null;
 let currentTournamentRound = 0;
 
+
+const malusTable = {}
+
+function recordMalus(hater, hatee, howMuch) {
+    if  (undefined === malusTable[hater]) {
+        malusTable[hater] = {}
+    }
+    if (undefined === malusTable[hater][hatee]) {
+        malusTable[hater][hatee] = 0;
+    }
+    malusTable[hater][hatee] += howMuch;    
+}
+
+function readMalus(hater, hatee) {
+    if  (undefined === malusTable[hater]) {
+        malusTable[hater] = {}
+    }
+    if (undefined === malusTable[hater][hatee]) {
+        malusTable[hater][hatee] = 0;
+    }
+    return malusTable[hater][hatee];
+}
+
+function decayMalus(hater) {
+    if(undefined === malusTable[hater]) {
+        malusTable[hater] = {}
+    }
+    for(let k in malusTable[hater].keys()) {
+        malusTable[hater][k] *= 0.9;
+    }
+}
+
+function findEnemies(hater, team) {
+    let enemyList = [];
+    team.forEach(player => {
+        let malus = readMalus(hater, player.playerID);
+        enemyList.push([malus, player.playerID, player.x, player.y]);
+    });
+    return enemyList;
+}
+
 class leagueGameScene extends Phaser.Scene 
 {
     constructor ()
@@ -463,13 +504,39 @@ class sportsGameScene extends Phaser.Scene
                     // TODO
                     const PlayerA_ID = bodyA.gameObject.playerID;
                     const PlayerB_ID = bodyB.gameObject.playerID;
-                    //console.log(bodyA);
+                    console.log(bodyA);
                     //console.log(bodyB);
+                    //console.log
+                    let PlayerA_Vel = bodyA.parent.speed;//new Phaser.Math.Vector2(bodyA.getVelocity());
+                    let PlayerB_Vel = bodyB.parent.speed;//new Phaser.Math.Vector2(bodyB.getVelocity());
+                    console.log(PlayerA_Vel);
+                    const Diff_Vel = PlayerA_Vel - PlayerB_Vel;
+                    const howHardTheHitWas = Diff_Vel;
+                    const whoHitHarder = PlayerA_Vel - PlayerB_Vel;
+                    const hitDamage = Math.random() * howHardTheHitWas;
+                    let attacker = "Nobody";
+                    let defender = "Nobody";
+                    if(hitDamage > 0.0) {
+                        if (whoHitHarder >= 0) {
+                            recordMalus(PlayerB_ID, PlayerA_ID, hitDamage);
+                            attacker = PlayerA_ID;
+                            defender = PlayerB_ID;
+                        }
+                        if (whoHitHarder < 0) {
+                            recordMalus(PlayerA_ID, PlayerB_ID, hitDamage);
+                            attacker = PlayerB_ID;
+                            defender = PlayerA_ID;
+                        }
+                    }
+                    
 
                     historyRecorder.recordHistory({
                          event: "sportsPlayerCollision",
                          subjectID: PlayerA_ID,
                          objectID: PlayerB_ID,
+                         hitDamage: Math.abs(hitDamage / (15.01 - currentTournamentRound)),
+                         attacker: attacker,
+                         defender: defender,
                          message: `${PlayerA_ID} collides with ${PlayerB_ID}!`,
                          proximateCause: PlayerA_ID
                     });
@@ -617,7 +684,7 @@ class sportsGameScene extends Phaser.Scene
             // debugging viz
             //this.viz_graphic = this.add.graphics({ lineStyle: { color: 0x00ffff } });
 
-            this.periodLength = 300;
+            this.periodLength = 600;
             this.periodCount = 3;
             this.currentPeriod = 0;
             this.currentPeriodStart = 0;
@@ -915,9 +982,17 @@ class sportsGameScene extends Phaser.Scene
         }
 
         update(time, delta) {
+
+            const TeamOne = this.sportsGame.teams[0].name;
+            const TeamTwo = this.sportsGame.teams[1].name;
+            const ScoreOne = this.sportsGame.score[TeamOne];
+            const ScoreTwo = this.sportsGame.score[TeamTwo];
+
             //console.log(this.players);
             this.players.forEach((p) => {
                 //console.log(p)
+                p.seekEnemies(findEnemies(p.playerID, this.players));
+
                 p.update(time, delta);
             });
 
@@ -925,10 +1000,6 @@ class sportsGameScene extends Phaser.Scene
             const timeSinceLastComment = currentTime - this.lastComment;
             
 
-            const TeamOne = this.sportsGame.teams[0].name;
-            const TeamTwo = this.sportsGame.teams[1].name;
-            const ScoreOne = this.sportsGame.score[TeamOne];
-            const ScoreTwo = this.sportsGame.score[TeamTwo];
 
             if(timeSinceLastComment > 200 * Math.random()) {
                 historyRecorder.recordHistory({

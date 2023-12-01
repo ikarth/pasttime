@@ -177,6 +177,59 @@ function sportsGamePeriodStartFunc(e) {
 //     scoreAway: ?awayScore
 //     ))
 
+function sportsPlayerCollisionFunc(e) {
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p style=\"color:red\">#comment#</p>';
+	binds.knock = "";
+	binds.comment = ["#attacker# slams in to #defender##knock#."];
+	if((binds.attacker == "Nobody") || (binds.defender == "Nobody")) {
+		binds.comment = "";
+	}
+	if ((Number(binds.hitDamage)) < 1) {
+		binds.comment = ""
+	} else {
+		binds.knock = " and knocks out #hitDamage# teeth"
+	}
+	return tracery.createGrammar(binds);
+}
+
+function arenaOutOfBoundsFunc(e) {
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p style=\"color:grey\">#comment#</p>';
+	binds.comment = ["#actor# is sent to limbo.", "#actor# was knocked out of the rink."];
+	return tracery.createGrammar(binds);
+}
+
+function arenaInOfBoundsFunc(e) {
+	const binds = extractBindingsToGrammar(e);
+	binds.origin = '<p style=\"color:grey\">#comment#</p>';
+	binds.comment = ["#actor# returns to the rink."];
+	return tracery.createGrammar(binds);
+}
+
+// (pattern arenaOutOfBounds
+//     (event ?e1 where
+//     event: arenaOutOfBounds
+//     place: ?place
+//     actor: ?actor
+//     actorTeam: ?actorTeam))
+
+//     (pattern arenaInOfBounds
+//     (event ?e1 arenaInOfBounds
+//       event: arenaInOfBounds
+//       place: ?place
+//       actor: ?actor
+//       actorTeam: ?actorTeam
+//     ))
+
+// (pattern sportsPlayerCollision
+//     (event ?e1 where
+//     event: sportsPlayerCollision
+//     hitDamage: ?hitDamage,
+//     attacker: ?attacker,
+//     defender: ?defender
+//     ))
+
 function sportsTeamStartingLineupFunc(e) {
 	const binds = extractBindingsToGrammar(e);
 	binds.origin = '<p>#comment#</p>';
@@ -452,7 +505,10 @@ const commentaryFunctions = {
 	"sportsGameEndWin": sportsGameEndWinFunc,
 	"randomCommentary": randomCommentary,
 	"sportsWinTournament": sportsWinTournament,
-	"sportsTeamEliminated": sportsTeamEliminatedFunc
+	"sportsTeamEliminated": sportsTeamEliminatedFunc,
+	"sportsPlayerCollision": sportsPlayerCollisionFunc,
+	"arenaInOfBounds": arenaInOfBoundsFunc,
+	"arenaOutOfBounds": arenaOutOfBoundsFunc
 }
 
 
